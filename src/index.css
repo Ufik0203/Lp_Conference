@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-accent: #8e793e;
+  --color-secondary-accent: #ad974f;
+  --color-neutral-dark: #231f20;
+  --color-neutral-light: #eaeaea;
+}
+
+html,
+body {
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+@layer utilities {
+  .diagonal-top {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  .diagonal-bottom {
+    clip-path: polygon(101% -1%, 101% 101%, -1% 101%);
+  }
+}

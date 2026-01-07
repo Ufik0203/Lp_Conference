@@ -1,0 +1,299 @@
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import Navbar from "./components/Navbar";
+import Home from "./section/Home";
+import ButtonNav from "./components/ButtonNav";
+import HomeAdditional_A from "./section/HomeAdditional_A";
+import HomeAdditional_B from "./section/HomeAdditional_B";
+import HomeAdditional_C from "./section/HomeAdditional_C";
+import CallForPaper from "./section/CallForPaper";
+import CallForPaperAdditional_B from "./section/CallForPaperAdditional_B";
+import CallForPaperAdditional_A from "./section/CallForPaperAdditional_A";
+import ImportantDates from "./section/ImportantDates";
+import Speakers from "./section/Speakers";
+import SpeakersAdditional_A from "./section/SpeakersAdditional_A";
+import Registration from "./section/Registration";
+import Contact from "./section/Contact";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import Countdown from "./components/Countdown";
+import { FaCircleChevronUp } from "react-icons/fa6";
+import "animate.css";
+
+const years = [
+  {
+    id: 1,
+    year: "Event 2025",
+    link: "",
+  },
+  {
+    id: 2,
+    year: "Event 2024",
+    link: "",
+  },
+  {
+    id: 3,
+    year: "Event 2023",
+    link: "",
+  },
+  {
+    id: 4,
+    year: "Event 2022",
+    link: "",
+  },
+  {
+    id: 5,
+    year: "Event 2021",
+    link: "",
+  },
+];
+
+function App() {
+  const homeRef = useRef<HTMLElement | null>(null);
+  const cfpRef = useRef<HTMLElement | null>(null);
+  const datesRef = useRef<HTMLElement | null>(null);
+  const speakersRef = useRef<HTMLElement | null>(null);
+  const registrationRef = useRef<HTMLElement | null>(null);
+  const contactRef = useRef<HTMLElement | null>(null);
+  const navbarRef = useRef<HTMLElement | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState<string>("home");
+  const [navH, setNavH] = useState(80);
+  const [archivesOpen, setArchivesOpen] = useState(false);
+  const [hideEvents, setHideEvents] = useState(false);
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const el = navbarRef.current;
+      if (!el) return;
+      setNavH(el.getBoundingClientRect().height);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
+    const el = ref.current;
+    if (!el) return;
+
+    const y = el.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const el = homeRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHideEvents(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = [
+      { id: "home", ref: homeRef },
+      { id: "cfp", ref: cfpRef },
+      { id: "dates", ref: datesRef },
+      { id: "speakers", ref: speakersRef },
+      { id: "registration", ref: registrationRef },
+      { id: "contact", ref: contactRef },
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.1,
+        rootMargin: `-${navH}px 0px -40% 0px`,
+      }
+    );
+
+    sections.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!archivesOpen) return;
+
+    const handler = (e: MouseEvent) => {
+      if (!menuRef.current) return;
+      if (menuRef.current.contains(e.target as Node)) return;
+
+      setArchivesOpen(false);
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [archivesOpen]);
+
+  return (
+    <>
+      <div className="w-full">
+        <Navbar>
+          <ButtonNav
+            onClick={() => scrollTo(homeRef)}
+            label="Home"
+            active={activeSection === "home"}
+          />
+          <ButtonNav
+            onClick={() => scrollTo(cfpRef)}
+            label="Call for Paper"
+            active={activeSection === "cfp"}
+          />
+          <ButtonNav
+            onClick={() => scrollTo(datesRef)}
+            label="Important Dates"
+            active={activeSection === "dates"}
+          />
+          <ButtonNav
+            onClick={() => scrollTo(speakersRef)}
+            label="Speakers"
+            active={activeSection === "speakers"}
+          />
+          <ButtonNav
+            onClick={() => scrollTo(registrationRef)}
+            label="Registration"
+            active={activeSection === "registration"}
+          />
+          <ButtonNav
+            onClick={() => scrollTo(contactRef)}
+            label="Contact"
+            active={activeSection === "contact"}
+          />
+          <ButtonNav
+            onClick={() => setArchivesOpen(!archivesOpen)}
+            label="Archives"
+            className="group relative"
+            data-nav-no-close="true"
+          >
+            <RiArrowDropDownLine className="w-7 h-7" />
+            <div
+              ref={menuRef}
+              className={`absolute bg-white w-40 top-10 flex-col text-secondary-accent rounded-lg border-2 overflow-hidden lg:group-hover:flex hover:flex z-10 ${
+                archivesOpen ? "flex" : "hidden"
+              }`}
+            >
+              {years.map((y) => (
+                <a
+                  onClick={() => setArchivesOpen(!archivesOpen)}
+                  key={y.id}
+                  href={y.link}
+                  className="py-2 hover:bg-neutral-dark"
+                >
+                  {y.year}
+                </a>
+              ))}
+            </div>
+          </ButtonNav>
+        </Navbar>
+      </div>
+
+      <section id="home" ref={homeRef}>
+        <Home />
+      </section>
+      <section className="2xl:min-h-266 h-175 sm:h-160 lg:h-220 2xl:h-266">
+        <div className="h-1/5 2xl:h-1/3" />
+        <div className="h-4/5 2xl:h-2/3">
+          <HomeAdditional_A />
+        </div>
+      </section>
+      <section className="2xl:min-h-266 sm:h-340 lg:h-220 2xl:h-266">
+        <div className="h-1/9 lg:h-1/5">
+          <HomeAdditional_B />
+        </div>
+        <div className="h-8/9 lg:h-4/5">
+          <HomeAdditional_C />
+        </div>
+      </section>
+
+      <section
+        id="cfp"
+        ref={cfpRef}
+        className="2xl:min-h-266 lg:h-220 2xl:h-266"
+      >
+        <div className="h-4/5">
+          <CallForPaper />
+        </div>
+        <div className="h-1/5">
+          <CallForPaperAdditional_A />
+        </div>
+      </section>
+      <section className="overflow-hidden 2xl:min-h-266 lg:h-266">
+        <CallForPaperAdditional_B />
+      </section>
+      <section
+        id="dates"
+        ref={datesRef}
+        className="overflow-hidden 2xl:min-h-266 h-240 sm:h-300 lg:h-220 2xl:h-266"
+      >
+        <div className="h-9/10">
+          <ImportantDates />
+        </div>
+        <div className="h-1/10 sm:h-1/7 bg-neutral-dark border-b-2 border-secondary-accent" />
+      </section>
+      <section
+        id="speakers"
+        ref={speakersRef}
+        className="overflow-hidden 2xl:min-h-266 h-210 sm:h-220 2xl:h-266"
+      >
+        <Speakers />
+      </section>
+      <section className="overflow-hidden lg:h-280 2xl:h-320">
+        <SpeakersAdditional_A />
+      </section>
+      <section
+        id="registration"
+        ref={registrationRef}
+        className="overflow-hidden 2xl:min-h-944.25 2xl:h-944.25"
+      >
+        <Registration />
+      </section>
+      <section
+        id="contact"
+        ref={contactRef}
+        className="overflow-hidden 2xl:min-h-225 2xl:h-225 bg-neutral-light"
+      >
+        <Contact />
+      </section>
+      <div
+        className={`relative animate__animated animate__slow z-50 ${
+          hideEvents ? "hidden" : "animate__fadeIn"
+        }`}
+      >
+        <Countdown
+          targetISO="2026-01-10T02:00:00Z"
+          classNameLive="fixed right-35 bottom-5 sm:right-5 z-50"
+          classNameUpcoming="fixed bottom-2 sm:bottom-4 right-9 sm:right-5 z-50 2xl:flex-col"
+        />
+      </div>
+      <button
+        className={`fixed ${
+          hideEvents
+            ? "bottom-5 sm:bottom-5 2xl:bottom-5"
+            : "bottom-14 sm:bottom-20 2xl:bottom-35"
+        } right-2 sm:right-5 rounded-full border-2 
+          border-secondary-accent z-50 bg-secondary-accent cursor-pointer
+          active:scale-60 transition-all duration-200 ease-in-out`}
+        onClick={() => scrollTo(homeRef)}
+      >
+        <FaCircleChevronUp className="w-7 h-7 sm:w-10 sm:h-10" />
+      </button>
+    </>
+  );
+}
+
+export default App;
