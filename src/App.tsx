@@ -259,7 +259,7 @@ function App() {
       <section
         id="dates"
         ref={datesRef}
-        className="overflow-hidden 2xl:min-h-266 h-240 sm:h-300 lg:h-220 2xl:h-266"
+        className="overflow-hidden 2xl:min-h-266 h-270 sm:h-300 lg:h-220 2xl:h-266"
       >
         <div className="h-9/10">
           <ImportantDates />

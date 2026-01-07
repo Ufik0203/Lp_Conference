@@ -133,7 +133,7 @@ const ImportantDates = () => {
             animate ? "animate__fadeInRight opacity-100" : "opacity-0"
           } lg:w-1/3 h-full flex sm:items-center`}
         >
-          <div className="sm:ml-10 text-gray-500 text-lg">
+          <div className="sm:ml-10 text-gray-500 sm:text-lg">
             <p>
               Authors are invited to submit Paper must be using IEEE Paper
               format, to{" "}
@@ -151,13 +151,13 @@ const ImportantDates = () => {
               </span>
             </h2>
             <hr className="border-t border-gray-400 my-3" />
-            <div className="mt-10">
+            <div className="mt-7 sm:mt-10">
               <h3>
-                <span className="text-xl font-extrabold text-primary-accent">
+                <span className="sm:text-xl font-extrabold text-primary-accent">
                   Online Submission
                 </span>{" "}
                 via{" "}
-                <span className="text-xl font-extrabold text-orange-400">
+                <span className="sm:text-xl font-extrabold text-orange-400">
                   <a href="#">EDAS</a>
                 </span>
               </h3>
