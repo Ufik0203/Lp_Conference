@@ -1,6 +1,6 @@
-import logo_1 from "../assets/logo/Logo-Vertikal-Telkom-University.png";
-import logo_2 from "../assets/logo/ieee-logo.png";
-import logo_3 from "../assets/logo/scopus-logo.png";
+import logo_1 from "/logo/Logo-Vertikal-Telkom-University.webp";
+import logo_2 from "/logo/ieee-logo.webp";
+import logo_3 from "/logo/scopus-logo.webp";
 import { useEffect, useRef, useState } from "react";
 
 const HomeAdditional_B = () => {

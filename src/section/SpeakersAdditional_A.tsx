@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import pdf_logo from "../assets/logo/pdf-express-logo.jpg";
+import pdf_logo from "/logo/pdf-express-logo.webp";
 
 const ATA = [
   {

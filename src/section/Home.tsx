@@ -1,12 +1,12 @@
 import CarouselPlugin from "@/components/CarouselPlugin";
-import slide1 from "../assets/slide-1.jpg";
-import slide2 from "../assets/slide-2.jpg";
-import slide3 from "../assets/slide-3.jpg";
-import slide4 from "../assets/slide-4.jpg";
+import slide1 from "/images/slide-1.webp";
+import slide2 from "/images/slide-2.webp";
+import slide3 from "/images/slide-3.webp";
+import slide4 from "/images/slide-4.webp";
 import ButtonNav from "@/components/ButtonNav";
-import fl_1 from "../assets/fl-1.jpg";
-import fl_2 from "../assets/fl-2.jpg";
-import fl_3 from "../assets/fl-3.jpg";
+import fl_1 from "/images/fl-1.webp";
+import fl_2 from "/images/fl-2.webp";
+import fl_3 from "/images/fl-3.webp";
 import { useEffect, useState } from "react";
 import {
   FaLongArrowAltLeft,

@@ -1,10 +1,10 @@
-import fl_2 from "../assets/fl-3.jpg";
-import edas_logo from "../assets/logo/edas-logo.png";
-// import Marquee from "@/components/Marque";
-import tel_u_logo from "../assets/logo/Logo-Vertikal-Telkom-University.png";
-import ieeeis_logo from "../assets/logo/ieeeis-logo.png";
+import fl_2 from "/images/fl-2.webp";
+import edas_logo from "/logo/edas-logo.webp";
+import tel_u_logo from "/logo/Logo-Vertikal-Telkom-University.webp";
+import ieeeis_logo from "/logo/ieeeis-logo.webp";
 import Committee from "@/components/Committee";
 import { useEffect, useRef, useState } from "react";
+// import Marquee from "@/components/Marque";
 
 const rows1 = [
   {

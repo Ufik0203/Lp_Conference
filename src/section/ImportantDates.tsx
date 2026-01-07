@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import edas from "../assets/logo/edas-logo.png";
+import edas from "/logo/edas-logo.webp";
 
 const ImportantDates = () => {
   const ref = useRef<HTMLDivElement | null>(null);

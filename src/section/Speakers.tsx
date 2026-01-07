@@ -1,7 +1,7 @@
 import CardStack from "@/components/CardStack";
-import fl_1 from "../assets/fl-1.jpg";
-import fl_2 from "../assets/fl-2.jpg";
-import fl_3 from "../assets/fl-3.jpg";
+import fl_1 from "/images/fl-1.webp";
+import fl_2 from "/images/fl-2.webp";
+import fl_3 from "/images/fl-3.webp";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const speakers = [

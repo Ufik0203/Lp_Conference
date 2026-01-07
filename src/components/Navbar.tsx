@@ -1,5 +1,5 @@
 import { GiHamburgerMenu } from "react-icons/gi";
-import logo_1 from "../assets/logo/Logo-Vertikal-Telkom-University.png";
+import logo_1 from "/logo/Logo-Vertikal-Telkom-University.webp";
 import { useEffect, useRef, useState } from "react";
 
 type NavbarProps = {

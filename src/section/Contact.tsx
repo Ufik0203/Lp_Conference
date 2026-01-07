@@ -1,5 +1,5 @@
 import { MdAttachEmail } from "react-icons/md";
-import sl_1 from "../assets/slide-1.jpg";
+import sl_1 from "/images/slide-1.webp";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";

@@ -1,5 +1,5 @@
 import CardStack from "@/components/CardStack";
-import fl_3 from "../assets/fl-3.jpg";
+import fl_3 from "/images/fl-3.webp";
 import { useEffect, useRef, useState } from "react";
 import ButtonNav from "@/components/ButtonNav";
 

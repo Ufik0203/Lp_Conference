@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import fl_2 from "../assets/fl-2.jpg";
+import fl_2 from "/images/fl-2.webp";
 
 const HomeAdditional_C = () => {
   const ref = useRef<HTMLDivElement | null>(null);

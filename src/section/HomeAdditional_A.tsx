@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import img1 from "../assets/fl-1.jpg";
+import img1 from "/images/fl-1.webp";
 
 const previousPubliication = [
   {
