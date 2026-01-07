@@ -17,6 +17,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import Countdown from "./components/Countdown";
 import { FaCircleChevronUp } from "react-icons/fa6";
 import "animate.css";
+import Loader from "./components/Loader";
 
 const years = [
   {
@@ -59,6 +60,7 @@ function App() {
   const [navH, setNavH] = useState(80);
   const [archivesOpen, setArchivesOpen] = useState(false);
   const [hideEvents, setHideEvents] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useLayoutEffect(() => {
     const update = () => {
@@ -140,9 +142,28 @@ function App() {
     return () => document.removeEventListener("mousedown", handler);
   }, [archivesOpen]);
 
+  useEffect(() => {
+    if (document.readyState === "complete") {
+      setReady(true);
+      return;
+    }
+
+    const onLoad = () => setReady(true);
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
+
   return (
     <>
-      <div className="w-full">
+      {!ready && <Loader />}
+      <div
+        className="w-full"
+        style={{
+          pointerEvents: ready ? "auto" : "none",
+          opacity: ready ? 1 : 0,
+          transition: "opacity 250ms ease",
+        }}
+      >
         <Navbar>
           <ButtonNav
             onClick={() => scrollTo(homeRef)}
