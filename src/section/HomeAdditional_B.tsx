@@ -1,5 +1,5 @@
 import logo_1 from "../assets/logo/Logo-Vertikal-Telkom-University.png";
-import logo_2 from "../assets/logo/IEEE-logo.png";
+import logo_2 from "../assets/logo/ieee-logo.png";
 import logo_3 from "../assets/logo/scopus-logo.png";
 import { useEffect, useRef, useState } from "react";
 
