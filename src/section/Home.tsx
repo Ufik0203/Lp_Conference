@@ -112,8 +112,20 @@ const Home = () => {
         />
       </div>
       <div className="w-full sm:h-1/2 relative">
-        <div className="animate__fadeInDown animate__animated animate__delay-1s animate__slow absolute left-1/2 -top-15 sm:-top-57 lg:-top-72 2xl:-top-45 sm:-translate-y-1/2 -translate-x-1/2 z-20 w-90">
-          <Countdown targetISO="2026-01-10T02:00:00Z"classNameUpcoming="text-white"/>
+        <div
+          className={`animate__fadeInDown animate__animated animate__delay-1s animate__slow 
+          absolute left-1/2 -top-15 sm:-top-57 lg:-top-75 xl:-top-78 2xl:-top-48 sm:-translate-y-1/2 
+          -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-215 xl:min-w-300`}
+        >
+          <Countdown
+            targetISO="2026-01-10T02:00:00Z"
+            classNameUpcoming="text-white"
+            classNameLive="py-2 xl:py-3 sm:text-xl xl:text-4xl sm:w-140 xl:min-w-200"
+            styleUpcoming="text-sm p-2.5 sm:p-3 xl:p-4 sm:text-4xl xl:text-5xl xl:px-10 font-bold"
+            styleWrapperDL="px-3 py-1 sm:py-2 min-w-15 xl:min-w-20"
+            styleDisplay="text-xs sm:text-lg xl:text-2xl"
+            styleLabel="text-xs sm:text-sm xl:text-lg"
+          />
         </div>
         <div
           className={`animate__fadeInUp animate__animated animate__slow sm:absolute sm:left-1/2 sm:top-1/10 2xl:top-2/5 sm:w-6xl sm:max-w-[90%] 

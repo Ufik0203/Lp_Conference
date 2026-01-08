@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import img1 from "/images/fl-1.webp";
+// import img1 from "/images/fl-1.webp";
 
 const previousPubliication = [
   {
@@ -66,15 +66,15 @@ const HomeAdditional_A = () => {
   return (
     <div
       ref={ref}
-      className="overflow-hidden w-full h-full flex relative justify-center"
+      className="overflow-hidden w-full h-full flex relative justify-center bg-primary-accent border-t-2 border-secondary-accent"
     >
-      <div className="absolute w-full h-full bg-primary-accent/70 border-t-2 border-primary-accent/80 z-20" />
-      <img src={img1} alt="" className="absolute w-full h-full object-cover" />
+      {/* <div className="absolute w-full h-full bg-primary-accent border-t-2 border-primary-accent/80 z-20" /> */}
+      {/* <img src={img1} alt="" className="absolute w-full h-full object-cover" /> */}
       <div className="h-full w-full sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl sm:mx-auto absolute z-30 text-white flex flex-col sm:gap-5 gap-8 px-3 sm:px-0">
         <h1
           className={`animate__animated animate__slow ${
             animate ? "animate__fadeInUp opacity-100" : "opacity-0"
-          } sm:text-2xl lg:text-4xl font-bold mt-10 sm:my-8 lg:my-16 w-full text-center`}
+          } sm:text-2xl lg:text-4xl font-bold mt-10 sm:my-8 lg:my-16 w-full text-center text-neutral-dark`}
         >
           NaN Previous Publication : IEEE Xplore & SCOPUS Indexed
         </h1>

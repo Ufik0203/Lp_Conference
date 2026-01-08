@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 
-type CountdownTime = { days: number; hours: number; minutes: number };
+type CountdownTime = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
 
 function calc(distance: number): CountdownTime {
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -8,17 +13,29 @@ function calc(distance: number): CountdownTime {
     (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  return { days, hours, minutes };
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  return { days, hours, minutes, seconds };
 }
 
 const Countdown = ({
   targetISO,
   classNameLive,
   classNameUpcoming,
+  styleLive,
+  styleUpcoming,
+  styleWrapperDL,
+  styleDisplay,
+  styleLabel,
 }: {
   targetISO: string;
   classNameLive?: string;
   classNameUpcoming?: string;
+  styleLive?: string;
+  styleUpcoming?: string;
+  styleWrapperDL?: string;
+  styleDisplay?: string;
+  styleLabel?: string;
 }) => {
   const targetMs = useMemo(() => new Date(targetISO).getTime(), [targetISO]);
 
@@ -51,9 +68,15 @@ const Countdown = ({
   if (isLive) {
     return (
       <div
-        className={`p-1 sm:p-2 bg-neutral-dark border-4 rounded-xl border-secondary-accent ${classNameLive}`}
+        className={`font-bold bg-neutral-dark border-4 rounded-xl border-secondary-accent ${
+          classNameLive ?? ""
+        }`}
       >
-        <h1 className="sm:text-4xl font-bold text-secondary-accent animate-pulse text-center">
+        <h1
+          className={`text-secondary-accent animate-pulse text-center ${
+            styleLive ?? ""
+          }`}
+        >
           Event is Live !
         </h1>
       </div>
@@ -64,27 +87,77 @@ const Countdown = ({
 
   return (
     <div
-      className={`flex gap-1 items-center text-center ${classNameUpcoming}`}
+      className={`flex gap-1 items-center text-center ${
+        classNameUpcoming ?? ""
+      }`}
     >
-      <div className="bg-neutral-dark p-2.5 sm:p-3 2xl:w-full rounded-xl border-2 text-secondary-accent">
-        <h1 className="text-sm sm:text-lg font-bold animate-pulse">
-          Event starts in
-        </h1>
+      <div
+        className={`bg-neutral-dark rounded-xl border-2 text-secondary-accent ${
+          styleUpcoming ?? ""
+        }`}
+      >
+        <h1 className="animate-pulse">Event starts in</h1>
       </div>
+
       <div className="flex gap-1 sm:gap-2">
-        <TimeBox label="Days" value={timeLeft.days} />
-        <TimeBox label="Hours" value={timeLeft.hours} />
-        <TimeBox label="Minutes" value={timeLeft.minutes} />
+        <TimeBox
+          label="Days"
+          value={timeLeft.days}
+          styleWrapperDL={styleWrapperDL}
+          styleDisplay={styleDisplay}
+          styleLabel={styleLabel}
+        />
+        <TimeBox
+          label="Hours"
+          value={timeLeft.hours}
+          styleWrapperDL={styleWrapperDL}
+          styleDisplay={styleDisplay}
+          styleLabel={styleLabel}
+        />
+        <TimeBox
+          label="Minutes"
+          value={timeLeft.minutes}
+          styleWrapperDL={styleWrapperDL}
+          styleDisplay={styleDisplay}
+          styleLabel={styleLabel}
+        />
+        <TimeBox
+          label="Seconds"
+          value={timeLeft.seconds}
+          styleWrapperDL={styleWrapperDL}
+          styleDisplay={styleDisplay}
+          styleLabel={styleLabel}
+        />
       </div>
     </div>
   );
 };
 
-function TimeBox({ label, value }: { label: string; value: number }) {
+function TimeBox({
+  label,
+  value,
+  styleWrapperDL,
+  styleDisplay,
+  styleLabel,
+}: {
+  label: string;
+  value: number;
+  styleWrapperDL?: string;
+  styleDisplay?: string;
+  styleLabel?: string;
+}) {
+  const display = String(value).padStart(2, "0");
+
   return (
-    <div className="px-3 py-1 sm:py-2 bg-neutral-dark text-white rounded-xl min-w-15 border-2 border-secondary-accent">
-      <div className="text-xs sm:text-sm font-bold">{value}</div>
-      <div className="text-xs opacity-70">{label}</div>
+    <div
+      className={`bg-neutral-dark text-white rounded-xl border-2 border-secondary-accent ${
+        styleWrapperDL ?? ""
+      }`}
+    >
+      <div className={`font-bold ${styleDisplay ?? ""}`}>
+        {display}
+      </div>
+      <div className={`opacity-70 ${styleLabel ?? ""}`}>{label}</div>
     </div>
   );
 }
