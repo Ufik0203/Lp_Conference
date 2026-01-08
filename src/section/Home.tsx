@@ -115,7 +115,7 @@ const Home = () => {
         <div
           className={`animate__fadeInDown animate__animated animate__delay-1s animate__slow 
           absolute left-1/2 -top-15 sm:-top-57 lg:-top-75 xl:-top-78 2xl:-top-48 sm:-translate-y-1/2 
-          -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-215 xl:min-w-300`}
+          -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-215 xl:min-w-280`}
         >
           <Countdown
             targetISO="2026-01-10T02:00:00Z"
