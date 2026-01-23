@@ -118,7 +118,7 @@ const Home = () => {
           -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-215 xl:min-w-280`}
         >
           <Countdown
-            targetISO="2026-01-10T02:00:00Z"
+            targetISO="2027-01-10T02:00:00Z"
             classNameUpcoming="text-white"
             classNameLive="py-2 xl:py-3 sm:text-xl xl:text-4xl sm:w-140 xl:min-w-200"
             styleUpcoming="text-sm p-2.5 sm:p-3 xl:p-4 sm:text-4xl xl:text-5xl xl:px-10 font-bold"
