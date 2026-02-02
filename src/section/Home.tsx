@@ -114,8 +114,8 @@ const Home = () => {
       <div className="w-full sm:h-1/2 relative">
         <div
           className={`animate__fadeInDown animate__animated animate__delay-1s animate__slow 
-          absolute left-1/2 -top-15 sm:-top-57 lg:-top-75 xl:-top-78 2xl:-top-48 sm:-translate-y-1/2 
-          -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-215 xl:min-w-280`}
+          absolute left-1/2 sm:left-4/10 xl:left-4/9 -top-15 sm:-top-57 lg:-top-75 xl:-top-78 2xl:-top-48 sm:-translate-y-1/2 
+          -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-150 xl:min-w-200`}
         >
           <Countdown
             targetISO="2027-01-10T02:00:00Z"
@@ -159,8 +159,8 @@ const Home = () => {
                   activeTab === "submission"
                     ? fl_1
                     : activeTab === "using_pdf"
-                    ? fl_2
-                    : fl_3
+                      ? fl_2
+                      : fl_3
                 }
                 alt="tab-image"
                 className={`h-full w-full object-cover transition-opacity duration-300 ease-in-out ${
