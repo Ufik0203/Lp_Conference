@@ -275,7 +275,7 @@ const Committee = () => {
       ref={ref}
       className={`animate__animated animate__slow ${
         animate ? "animate__zoomInDown opacity-100" : "opacity-0"
-      } h-120 lg:h-150 lg:max-w-6xl xl:mx-auto mx-3 2xl:mx-0 2xl:w-full flex rounded-xl`}
+      } h-120 lg:h-150 lg:max-w-7xl xl:mx-auto mx-3 2xl:mx-0 2xl:w-full flex rounded-xl`}
     >
       <div className="hidden sm:max-w-52 lg:max-w-90  h-full sm:flex flex-col">
         <div className="h-20 border-b-2 border-primary-accent w-full" />
@@ -292,7 +292,7 @@ const Committee = () => {
       </div>
 
       <div className="w-full h-full flex flex-col lg:min-w-180 xl:min-w-200">
-        <div className="h-20 w-full flex font-semibold text-neutral-dark items-end text-xs">
+        <div className="h-20 w-full flex font-semibold text-neutral-dark items-end text-xs lg:text-sm">
           {tabs.map((t) => (
             <div key={t.key} className={tabClass(t.key)}>
               <button
