@@ -19,6 +19,7 @@ import "animate.css";
 import Loader from "./components/Loader";
 import ImportantDatesPages from "./section/ImportantDates";
 import { getImages } from "./services/imageCarousel.service";
+import { useTitleAndDates } from "./Hook/useTitleAndDates";
 
 const years = [
   {
@@ -62,6 +63,7 @@ function App() {
   const [archivesOpen, setArchivesOpen] = useState(false);
   const [hideEvents, setHideEvents] = useState(false);
   const [ready, setReady] = useState(false);
+  const { data: titleAndDates } = useTitleAndDates();
 
   useLayoutEffect(() => {
     const update = () => {
@@ -311,7 +313,7 @@ function App() {
         }`}
       >
         <Countdown
-          targetISO="2027-01-10T02:00:00Z"
+          targetISO={titleAndDates?.conferenceDate ?? "4027-01-10T02:00:00Z"}
           classNameLive="fixed right-35 bottom-5 sm:right-5 z-50 p-1 sm:p-2 2xl:px-5"
           classNameUpcoming="fixed bottom-2 sm:bottom-4 right-9 sm:right-5 z-50 2xl:flex-col"
           styleUpcoming="p-2.5 sm:p-3 2xl:w-full text-sm sm:text-lg font-bold"

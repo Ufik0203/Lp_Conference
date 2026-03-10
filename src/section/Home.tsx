@@ -18,6 +18,7 @@ import { getImages } from "@/services/imageCarousel.service";
 import type { ImagesCarousel } from "@/types/imagesCarousel";
 import type { HomeResponse } from "@/types/home";
 import { getHome } from "@/services/home.service";
+import { useTitleAndDates } from "@/Hook/useTitleAndDates";
 
 type TabKey = "submission" | "using_pdf" | "presentation_slide";
 
@@ -58,6 +59,7 @@ const Home = () => {
   const [images, setImages] = useState<ImagesCarousel[]>([]);
   const [home, setHome] = useState<HomeResponse | null>(null);
   const [animateKey, setAnimateKey] = useState(0);
+  const { data: titleAndDates } = useTitleAndDates();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -194,7 +196,7 @@ const Home = () => {
         ? home.using_pdf.image_url
         : home.presentation_slide.image_url;
 
-  const title = `Advancing Energy Management, Telemonitoring, and Automation System with Artificial Intelligence to Enhance Next-Gen Healthcare Solution`;
+  const title = titleAndDates?.title ?? "Conference";
 
   return (
     <div className="w-full sm:min-h-200 h-216 sm:h-200 lg:min-h-266 lg:h-266 pt-20">
@@ -231,7 +233,7 @@ const Home = () => {
           -translate-x-1/2 sm:-translate-x-1/3 z-20 w-100 sm:min-w-150 xl:min-w-200`}
         >
           <Countdown
-            targetISO="2027-01-10T02:00:00Z"
+            targetISO={titleAndDates?.conferenceDate ?? "4027-01-10T02:00:00Z"}
             classNameUpcoming="text-white"
             classNameLive="py-2 xl:py-3 sm:text-xl xl:text-4xl sm:w-140 xl:min-w-200"
             styleUpcoming="text-sm p-2.5 sm:p-3 xl:p-4 sm:text-4xl xl:text-5xl xl:px-10 font-bold"
