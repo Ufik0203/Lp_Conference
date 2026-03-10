@@ -57,6 +57,7 @@ const Home = () => {
   const [pageFading, setPageFading] = useState(false);
   const [images, setImages] = useState<ImagesCarousel[]>([]);
   const [home, setHome] = useState<HomeResponse | null>(null);
+  const [animateKey, setAnimateKey] = useState(0);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -157,6 +158,14 @@ const Home = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeTab, pdfPage]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateKey((prev) => prev + 1);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (!home) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-400 font-semibold">
@@ -195,9 +204,10 @@ const Home = () => {
           autoDelayMs={4000}
           pauseAfterInteractionMs={2000}
         />
-        <div className="absolute w-full sm:h-100 h-50 top-0 flex pt-25 bg-linear-to-b from-secondary-accent to-transparent justify-center">
+        <div className="absolute w-full sm:h-75 h-50 top-0 flex pt-25 bg-linear-to-b from-secondary-accent to-transparent justify-center">
           <h1
-            className="text-xl lg:text-4xl 2xl:text-6xl text-center font-extrabold text-neutral-dark px-5 lg:px-11"
+            key={animateKey}
+            className="text-xl lg:text-4xl 2xl:text-5xl text-center font-extrabold text-neutral-dark px-5 lg:px-11"
             style={{
               textShadow: `-2px -2px 0 #8e793e, 2px -2px 0 #8e793e, -2px 2px 0 #8e793e, 2px 2px 0 #8e793e`,
             }}
