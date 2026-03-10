@@ -47,9 +47,14 @@ const Contact = () => {
   return (
     <div
       ref={ref}
-      style={{ backgroundImage: `url(${sl_1})` }}
+      style={{ backgroundImage: `url(${data?.image_url})` }}
       className="w-full h-full flex flex-col relative bg-cover bg-center bg-no-repeat border-t-2 border-secondary-accent"
     >
+      {!data?.image_url && (
+        <div className="flex items-center justify-end font-bold pr-10 text-gray-500">
+          No Data Image
+        </div>
+      )}
       <div className="w-full h-188 2xl:h-200 absolute bg-linear-to-b sm:bg-linear-to-r from-neutral-dark via-neutral-dark via-70% sm:via-60% to-transparent z-0" />
       <div className="h-20 sm:h-28 2xl:h-40 lg:ml-78 ml-10 flex items-end text-secondary-accent z-20">
         <div
