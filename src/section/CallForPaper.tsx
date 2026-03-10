@@ -136,7 +136,6 @@ const CallForPaper = () => {
 
   const totalCards = cards.length;
 
-
   return (
     <div
       ref={ref}
@@ -220,8 +219,11 @@ const CallForPaper = () => {
             </div>
           </div>
 
-          <div className={`bg-neutral-dark hidden lg:grid lg:grid-cols-5 font-bold`}>
-            <div className="diagonal-bottom bg-neutral-light" />
+          <div
+            // className={`lg:grid lg:grid-cols-${totalCards} hidden border-l-4 border-secondary-accent gap-2`}
+            className={`lg:w-full lg:flex hidden border-l-4 border-secondary-accent gap-2`}
+          >
+            {/* <div className="diagonal-bottom bg-neutral-light" /> */}
             {/* <div
               className={
                 active === 0 ? "pb-2 bg-white" : "pb-2 bg-neutral-light"
@@ -270,7 +272,7 @@ const CallForPaper = () => {
               <div
                 key={item._id}
                 className={
-                  active === index ? "pb-2 bg-white" : "pb-2 bg-neutral-light"
+                  active === index ? " pb-2 bg-white min-w-40" : "pb-2 bg-neutral-light min-w-40"
                 }
               >
                 <ButtonNav
@@ -286,7 +288,9 @@ const CallForPaper = () => {
         </div>
       </div>
 
-      <div className={`bg-neutral-dark font-bold lg:hidden border-t-2 border-secondary-accent grid grid-cols-${totalCards}`}>
+      <div
+        className={`bg-neutral-dark font-bold lg:hidden border-t-2 border-secondary-accent grid grid-cols-${totalCards}`}
+      >
         {/* <div
           className={active === 0 ? "py-2 bg-white" : "py-2 bg-neutral-light"}
         >
@@ -340,9 +344,9 @@ const CallForPaper = () => {
           </div>
         ))}
       </div>
-      <div className="hidden absolute w-1/2 h-full right-0 lg:grid grid-rows-6">
+      <div className="hidden absolute w-276.5 h-full right-0 lg:grid grid-rows-6">
         <div className="row-span-5 bg-neutral-dark border-b-4 border-secondary-accent" />
-        <div className="xl:bg-neutral-light" />
+        <div className="xl:bg-neutral-light w-300" />
       </div>
     </div>
   );

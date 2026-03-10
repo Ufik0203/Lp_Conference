@@ -182,25 +182,53 @@ const ImportantDatesPages = () => {
 
                       <p>{batch.notificationOfAcceptance}</p>
 
-                      <p>
-                        {new Date(
-                          batch.registration.current,
-                        ).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </p>
+                      <div className="flex gap-2">
+                        <p>
+                          {new Date(
+                            batch.registration.current,
+                          ).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
 
-                      <p>
-                        {new Date(
-                          batch.uploadFinalManuscript.current,
-                        ).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </p>
+                        {batch.registration.previous && (
+                          <p className="line-through text-gray-500">
+                            {new Date(
+                              batch.registration.previous,
+                            ).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex gap-2">
+                        <p>
+                          {new Date(
+                            batch.uploadFinalManuscript.current,
+                          ).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
+
+                        {batch.uploadFinalManuscript.previous && (
+                          <p className="line-through text-gray-500">
+                            {new Date(
+                              batch.uploadFinalManuscript.previous,
+                            ).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

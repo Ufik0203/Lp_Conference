@@ -185,6 +185,8 @@ const Home = () => {
         ? home.using_pdf.image_url
         : home.presentation_slide.image_url;
 
+  const title = `Advancing Energy Management, Telemonitoring, and Automation System with Artificial Intelligence to Enhance Next-Gen Healthcare Solution`;
+
   return (
     <div className="w-full sm:min-h-200 h-216 sm:h-200 lg:min-h-266 lg:h-266 pt-20">
       <div className="w-full sm:h-3/4 h-100 border-b-4 border-primary-accent">
@@ -193,6 +195,24 @@ const Home = () => {
           autoDelayMs={4000}
           pauseAfterInteractionMs={2000}
         />
+        <div className="absolute w-full sm:h-100 h-50 top-0 flex pt-25 bg-linear-to-b from-secondary-accent to-transparent justify-center">
+          <h1
+            className="text-xl lg:text-4xl 2xl:text-6xl text-center font-extrabold text-neutral-dark px-5 lg:px-11"
+            style={{
+              textShadow: `-2px -2px 0 #8e793e, 2px -2px 0 #8e793e, -2px 2px 0 #8e793e, 2px 2px 0 #8e793e`,
+            }}
+          >
+            {title.split("").map((char, i) => (
+              <span
+                key={i}
+                className="letter-drop"
+                style={{ animationDelay: `${i * 0.02}s` }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </h1>
+        </div>
       </div>
       <div className="w-full sm:h-1/2 relative">
         <div

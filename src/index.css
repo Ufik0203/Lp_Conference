@@ -9,7 +9,37 @@
 
 html,
 body {
-  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-family:
+    "Roboto",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+@keyframes dropLetter {
+  0% {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+  70% {
+    transform: translateY(8px);
+  }
+  85% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.letter-drop {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-80px);
+  animation: dropLetter 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
 }
 
 @layer utilities {
