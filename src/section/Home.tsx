@@ -1,12 +1,12 @@
 import CarouselPlugin from "@/components/CarouselPlugin";
-import slide1 from "/images/slide-1.webp";
-import slide2 from "/images/slide-2.webp";
-import slide3 from "/images/slide-3.webp";
-import slide4 from "/images/slide-4.webp";
+// import slide1 from "/images/slide-1.webp";
+// import slide2 from "/images/slide-2.webp";
+// import slide3 from "/images/slide-3.webp";
+// import slide4 from "/images/slide-4.webp";
 import ButtonNav from "@/components/ButtonNav";
-import fl_1 from "/images/fl-1.webp";
-import fl_2 from "/images/fl-2.webp";
-import fl_3 from "/images/fl-3.webp";
+// import fl_1 from "/images/fl-1.webp";
+// import fl_2 from "/images/fl-2.webp";
+// import fl_3 from "/images/fl-3.webp";
 import { useEffect, useState } from "react";
 import {
   FaLongArrowAltLeft,
@@ -14,54 +14,109 @@ import {
   FaRegArrowAltCircleRight,
 } from "react-icons/fa";
 import Countdown from "@/components/Countdown";
+import { getImages } from "@/services/imageCarousel.service";
+import type { ImagesCarousel } from "@/types/imagesCarousel";
+import type { HomeResponse } from "@/types/home";
+import { getHome } from "@/services/home.service";
 
 type TabKey = "submission" | "using_pdf" | "presentation_slide";
 
-const TAB: Record<
-  Exclude<TabKey, "using_pdf">,
-  { title: string; body: string }
-> = {
-  submission: {
-    title: "Submission",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
-  },
-  presentation_slide: {
-    title: "Presentation Slide",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
-  },
-};
+// const TAB: Record<
+//   Exclude<TabKey, "using_pdf">,
+//   { title: string; body: string }
+// > = {
+//   submission: {
+//     title: "Submission",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
+//   },
+//   presentation_slide: {
+//     title: "Presentation Slide",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//   },
+// };
 
-const PDF_PAGES = [
-  {
-    title: "First Page",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
-  },
-  {
-    title: "Second Page",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
-  },
-  {
-    title: "Third Page",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
-  },
-];
+// const PDF_PAGES = [
+//   {
+//     title: "First Page",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,",
+//   },
+//   {
+//     title: "Second Page",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
+//   },
+//   {
+//     title: "Third Page",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.",
+//   },
+// ];
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("submission");
   const [fading, setFading] = useState(false);
   const [pdfPage, setPdfPage] = useState(0);
   const [pageFading, setPageFading] = useState(false);
-  const slides = [slide1, slide2, slide3, slide4].map((src, i) => ({
-    id: String(i),
-    content: (
-      <img
-        src={src}
-        alt={`slide-${i + 1}`}
-        className="h-full w-full object-cover"
-        draggable="false"
-      />
-    ),
-  }));
+  const [images, setImages] = useState<ImagesCarousel[]>([]);
+  const [home, setHome] = useState<HomeResponse | null>(null);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const data = await getImages();
+        setImages(data);
+      } catch (err) {
+        console.error("Failed to fetch Images", err);
+      }
+    };
+    fetchImages();
+  }, []);
+
+  // const slides = [slide1, slide2, slide3, slide4].map((src, i) => ({
+  //   id: String(i),
+  //   content: (
+  //     <img
+  //       src={src}
+  //       alt={`slide-${i + 1}`}
+  //       className="h-full w-full object-cover"
+  //       draggable="false"
+  //     />
+  //   ),
+  // }));
+  const slides =
+    images.length === 0
+      ? [
+          {
+            id: "no-image",
+            content: (
+              <div className="h-full w-full text-sm font-semibold flex items-center justify-center text-gray-400">
+                No Image
+              </div>
+            ),
+          },
+        ]
+      : images.map((img, i) => ({
+          id: img._id,
+          content: (
+            <img
+              src={img.url}
+              alt={`slide-${i + 1}`}
+              className="h-full w-full object-cover"
+              draggable="false"
+            />
+          ),
+        }));
+
+  useEffect(() => {
+    const fetchHome = async () => {
+      try {
+        const data = await getHome();
+        setHome(data);
+      } catch (err) {
+        console.error("Failed to fetch Home", err);
+      }
+    };
+    fetchHome();
+  }, []);
+
   const switchTab = (next: TabKey) => {
     setFading(true);
     window.setTimeout(() => {
@@ -102,6 +157,34 @@ const Home = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeTab, pdfPage]);
 
+  if (!home) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-400 font-semibold">
+        Loading to load data...
+      </div>
+    );
+  }
+
+  const TAB = {
+    submission: {
+      title: home.submission.title,
+      body: home.submission.body,
+    },
+    presentation_slide: {
+      title: home.presentation_slide.title,
+      body: home.presentation_slide.body,
+    },
+  };
+
+  const PDF_PAGES = home?.using_pdf.pages ?? [];
+
+  const imageSrc =
+    activeTab === "submission"
+      ? home.submission.image_url
+      : activeTab === "using_pdf"
+        ? home.using_pdf.image_url
+        : home.presentation_slide.image_url;
+
   return (
     <div className="w-full sm:min-h-200 h-216 sm:h-200 lg:min-h-266 lg:h-266 pt-20">
       <div className="w-full sm:h-3/4 h-100 border-b-4 border-primary-accent">
@@ -137,50 +220,69 @@ const Home = () => {
               onClick={() => switchTab("submission")}
               active={activeTab === "submission"}
               label="Submission"
+              b_classname="lg:text-xl"
               className="bg-neutral-100"
             />
             <ButtonNav
               onClick={() => switchTab("using_pdf")}
               active={activeTab === "using_pdf"}
               label="Using PDF Express"
+              b_classname="lg:text-xl"
               className="bg-neutral-100"
             />
             <ButtonNav
               onClick={() => switchTab("presentation_slide")}
               active={activeTab === "presentation_slide"}
               label="Presentation Slide Template"
+              b_classname="lg:text-xl"
               className="bg-neutral-100"
             />
           </div>
-          <div className="w-full sm:flex-1 min-h-0 flex flex-col sm:flex-row pt-1">
-            <div className="sm:w-2/5 h-20 sm:h-full overflow-hidden sm:rounded-bl-md border-t-2 sm:border-r-2 border-primary-accent">
-              <img
-                src={
-                  activeTab === "submission"
-                    ? fl_1
-                    : activeTab === "using_pdf"
-                      ? fl_2
-                      : fl_3
-                }
-                alt="tab-image"
-                className={`h-full w-full object-cover transition-opacity duration-300 ease-in-out ${
-                  fading ? "opacity-0" : "opacity-100"
-                }`}
-                draggable={false}
-              />
+          <div className="w-full sm:flex-1 min-h-0 flex flex-col md:flex-row pt-1">
+            <div className="md:w-2/5 h-20 md:h-full overflow-hidden md:rounded-bl-md border-t-2 md:border-r-2 border-primary-accent">
+              {imageSrc ? (
+                <img
+                  // src={
+                  //   activeTab === "submission"
+                  //     ? fl_1
+                  //     : activeTab === "using_pdf"
+                  //       ? fl_2
+                  //       : fl_3
+                  // }
+                  src={
+                    activeTab === "submission"
+                      ? home?.submission.image_url
+                      : activeTab === "using_pdf"
+                        ? home?.using_pdf.image_url
+                        : home?.presentation_slide.image_url
+                  }
+                  alt="tab-image"
+                  className={`h-full w-full object-cover transition-opacity duration-300 ease-in-out ${
+                    fading ? "opacity-0" : "opacity-100"
+                  }`}
+                  draggable={false}
+                />
+              ) : (
+                <div className="h-full w-full text-sm font-semibold flex items-center justify-center text-gray-400">
+                  No Image
+                </div>
+              )}
             </div>
-            <div className="sm:w-3/5 h-90 sm:h-full overflow-hidden sm:rounded-br-md p-3 lg:p-6 relative border-t-2 border-primary-accent flex flex-col">
+            <div className="md:w-3/5 h-90 sm:h-full overflow-hidden sm:rounded-br-md p-3 lg:p-6 relative border-t-2 border-primary-accent flex flex-col">
               {activeTab === "using_pdf" ? (
                 <>
                   <div
+                    /** Using PDF Express */
                     className={`flex-1 transition-opacity duration-300 ${
                       pageFading ? "opacity-0" : "opacity-100"
                     }`}
                   >
-                    <h2 className="text-lg sm:text-xl font-bold">
+                    <h2 className="text-xl xl:text-[26px] 2xl:text-3xl font-bold">
                       {PDF_PAGES[pdfPage].title}
                     </h2>
-                    <p className="sm:mt-2">{PDF_PAGES[pdfPage].body}</p>
+                    <p className="sm:mt-2 text-xs lg:text-sm xl:text-base">
+                      {PDF_PAGES[pdfPage].body}
+                    </p>
                   </div>
                   <div className="sm:mt-auto sm:pt-4">
                     <div className="flex justify-center gap-1 sm:gap-2 sm:mb-4">
@@ -230,16 +332,17 @@ const Home = () => {
                   </div>
                 </>
               ) : (
+                /** For Submission and Presentation Slide */
                 <div>
                   <h2
-                    className={`text-xl font-bold transition-opacity duration-300 ease-in-out ${
+                    className={`text-xl xl:text-[26px] 2xl:text-3xl font-bold transition-opacity duration-300 ease-in-out ${
                       fading ? "opacity-0" : "opacity-100"
                     }`}
                   >
                     {TAB[activeTab as Exclude<TabKey, "using_pdf">].title}
                   </h2>
                   <p
-                    className={`mt-2 transition-opacity duration-300 ease-in-out ${
+                    className={`mt-2 text-xs lg:text-sm xl:text-base  transition-opacity duration-300 ease-in-out ${
                       fading ? "opacity-0" : "opacity-100"
                     }`}
                   >

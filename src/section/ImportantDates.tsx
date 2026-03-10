@@ -1,9 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import edas from "/logo/edas-logo.webp";
+import type { ImportantDates } from "@/types/importtantDates";
+import { getImportatntDates } from "@/services/importantDates.service";
 
-const ImportantDates = () => {
+const ImportantDatesPages = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
+  const [data, setData] = useState<ImportantDates | null>(null);
+
+  useEffect(() => {
+    const fetchImportantDates = async () => {
+      try {
+        const data = await getImportatntDates();
+        setData(data);
+      } catch (err) {
+        console.error("Failed to fetch ImportantDates", err);
+      }
+    };
+    fetchImportantDates();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -18,7 +33,7 @@ const ImportantDates = () => {
       },
       {
         threshold: 0.4,
-      }
+      },
     );
 
     observer.observe(el);
@@ -60,7 +75,7 @@ const ImportantDates = () => {
             <h1 className="text-primary-accent text-lg sm:text-2xl font-bold">
               Important Dates
             </h1>
-            <div className="sm:mt-8">
+            {/* <div className="sm:mt-8">
               <h2 className="sm:text-xl text-secondary-accent pl-3 sm:pl-5 font-bold">
                 Batch 1
               </h2>
@@ -117,6 +132,79 @@ const ImportantDates = () => {
                   <p>3 Januuari 2026</p>
                 </div>
               </div>
+            </div> */}
+            <div className="sm:mt-8">
+              {data?.batch.map((batch) => (
+                <div key={batch.batchNo}>
+                  <h2 className="sm:text-xl text-secondary-accent pl-3 sm:pl-5 font-bold">
+                    Batch {batch.batchNo}
+                  </h2>
+
+                  <div className="flex pl-6 sm:pl-8 text-sm sm:text-lg">
+                    <div className="text-gray-500 grid grid-rows-4">
+                      <p>Paper Submission</p>
+                      <p>Notification of Acceptance</p>
+                      <p>Registration</p>
+                      <p>Upload Final Manuscript</p>
+                    </div>
+
+                    <div className="pl-2 text-gray-500 grid grid-rows-4">
+                      <p>:</p>
+                      <p>:</p>
+                      <p>:</p>
+                      <p>:</p>
+                    </div>
+
+                    <div className="text-primary-accent ml-2 grid grid-rows-4 sm:text-lg font-bold">
+                      <div className="flex gap-2">
+                        <p>
+                          {new Date(
+                            batch.paperSubmission.current,
+                          ).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
+
+                        {batch.paperSubmission.previous && (
+                          <p className="line-through text-gray-500">
+                            {new Date(
+                              batch.paperSubmission.previous,
+                            ).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                        )}
+                      </div>
+
+                      <p>{batch.notificationOfAcceptance}</p>
+
+                      <p>
+                        {new Date(
+                          batch.registration.current,
+                        ).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+
+                      <p>
+                        {new Date(
+                          batch.uploadFinalManuscript.current,
+                        ).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <button
               className={`mt-8 px-4 py-2 w-full sm:w-fit flex items-center gap-2 bg-primary-accent 
@@ -124,7 +212,14 @@ const ImportantDates = () => {
                 ease-in-out shadow-md hover:shadow-lg active:shadow-sm active:scale-[0.90] active:translate-y-px
                 font-bold text-lg sm:text-xl`}
             >
-              Conference Date : 1 Januuari 2026
+              Conference Date :{" "}
+              {data?.conferenceDate
+                ? new Date(data.conferenceDate).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
+                : "-"}
             </button>
           </div>
         </div>
@@ -174,4 +269,4 @@ const ImportantDates = () => {
   );
 };
 
-export default ImportantDates;
+export default ImportantDatesPages;

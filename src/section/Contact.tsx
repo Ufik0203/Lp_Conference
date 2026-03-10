@@ -3,10 +3,26 @@ import sl_1 from "/images/slide-1.webp";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
+import type { ContactTypes } from "@/types/contactTypes";
+import { getContact } from "@/services/contact.service";
 
 const Contact = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
+  const [data, setData] = useState<ContactTypes | null>(null);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      try {
+        const data = await getContact();
+        setData(data);
+      } catch (error) {
+        console.error("Failed to fetch contact:", error);
+      }
+    };
+
+    fetchContact();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -21,7 +37,7 @@ const Contact = () => {
       },
       {
         threshold: 0.3,
-      }
+      },
     );
 
     observer.observe(el);
@@ -59,7 +75,9 @@ const Contact = () => {
             </div>
             <div className="pl-5">
               <h2>Email address</h2>
-              <h2 className="sm:text-xl font-bold">Contact@mail.com</h2>
+              <h2 className="sm:text-xl font-bold">
+                {data?.email || "No Data"}
+              </h2>
             </div>
           </div>
           <div className="mt-10 flex w-full items-center">
@@ -68,7 +86,20 @@ const Contact = () => {
             </div>
             <div className="pl-5">
               <h2>WhatsApp Chat</h2>
-              <h2 className="sm:text-xl font-bold">08213xxxxx</h2>
+              <h2 className="sm:text-xl font-bold">
+                {data?.noWhatsApp ? (
+                  <a
+                    href={`https://wa.me/${data.noWhatsApp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sm:text-xl font-bold"
+                  >
+                    {data.noWhatsApp}
+                  </a>
+                ) : (
+                  "No Data"
+                )}
+              </h2>
             </div>
           </div>
           <div className="mt-10 flex w-full items-center">
@@ -77,7 +108,9 @@ const Contact = () => {
             </div>
             <div className="pl-5">
               <h2>Location</h2>
-              <h2 className="sm:text-xl font-bold">Jl. Ketintang, Surabaya</h2>
+              <h2 className="sm:text-xl font-bold">
+                {data?.location || "No Data"}
+              </h2>
             </div>
           </div>
         </div>
@@ -93,21 +126,27 @@ const Contact = () => {
             <p className="text-xl mt-5 sm:mt-8 font-semibold">
               Gedung Aula & SBS
             </p>
-            <p className="sm:my-4 pl-5 sm:pl-0">jl. Ketintang, Surabaya</p>
+            <p className="sm:my-4 pl-5 sm:pl-0">{data?.venue || "No Data"}</p>
           </div>
           <div
             className={`animate__animated animate__slow ${
               animate ? "animate__zoomIn opacity-100" : "opacity-0"
             } mt-8 sm:mt-5 w-full h-96 rounded-xl border-4`}
           >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.3797874886873!2d112.72634007628974!3d-7.311161171886884!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd1cb925a1d%3A0x1dbecb0b2e9b059f!2sUniversitas%20Telkom%20Surabaya!5e0!3m2!1sid!2sid!4v1767231290685!5m2!1sid!2sid"
-              className="w-full h-full border-0 rounded-lg"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {data?.urlGmap ? (
+              <iframe
+                src={data?.urlGmap}
+                className="w-full h-full border-0 rounded-lg"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-sm font-semibold">
+                No Data
+              </div>
+            )}
           </div>
         </div>
       </div>

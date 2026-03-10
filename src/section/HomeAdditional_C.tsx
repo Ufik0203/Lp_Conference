@@ -1,9 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import fl_2 from "/images/fl-2.webp";
+// import fl_2 from "/images/fl-2.webp";
+import { getHomeAdditional_C } from "@/services/homeAdditional_C.service";
+import DOMPurify from "dompurify";
 
 const HomeAdditional_C = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
+  const [body, setBody] = useState("");
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    const fetchHomeAdditional_C = async () => {
+      try {
+        const data = await getHomeAdditional_C();
+        setImage(data?.image_url ?? "");
+        setBody(data?.body ?? "");
+      } catch (err) {
+        console.error("Failed to fetch HomeAdditional_C", err);
+      }
+    };
+    fetchHomeAdditional_C();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -18,7 +35,7 @@ const HomeAdditional_C = () => {
       },
       {
         threshold: 0.3,
-      }
+      },
     );
 
     observer.observe(el);
@@ -36,7 +53,18 @@ const HomeAdditional_C = () => {
         } 
         lg:w-2/5 bg-black shadow-xl rounded-md h-60 sm:h-2/5 lg:h-3/5 z-10 overflow-hidden border-2 border-secondary-accent`}
       >
-        <img src={fl_2} alt="" className="object-cover w-full h-full" />
+        {/* <img src={fl_2} alt="" className="object-cover w-full h-full" /> */}
+        {image ? (
+          <img
+            src={image}
+            alt="about event"
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-sm font-semibold text-gray-400">
+            No data
+          </div>
+        )}
       </div>
       <div
         className={`animate__animated animate__slow ${animate ? "animate__fadeInUp opacity-100" : "opacity-0"}
@@ -45,7 +73,7 @@ const HomeAdditional_C = () => {
         <h1 className="w-full text-center text-2xl sm:text-3xl xl:text-4xl font-bold">
           About Event
         </h1>
-        <p className="pt-3 2xl:pt-10">We inform you that the</p>
+        {/* <p className="pt-3 2xl:pt-10">We inform you that the</p>
         <p>
           <span className="font-extrabold text-orange-400">
             <a href="#">Universitas of Wakanda (UoW)</a>
@@ -73,7 +101,17 @@ const HomeAdditional_C = () => {
           technology and intelligent system convergences, developments and find
           new business, technology, and societal value from the information
           technology and intelligent systems.
-        </p>
+        </p> */}
+        {body ? (
+          <div
+            className="max-w-none break-all [&_a]:no-underline pt-3 2xl:pt-10"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(body),
+            }}
+          />
+        ) : (
+          <p className="pt-3 2xl:pt-10 text-sm font-semibold text-gray-400">No data</p>
+        )}
       </div>
     </div>
   );

@@ -1,47 +1,64 @@
+import { getHomeAdditional_A } from "@/services/homeAdditional_A.service";
+import type { PreviousPublication } from "@/types/homeAdditional_A";
 import { useEffect, useRef, useState } from "react";
 // import img1 from "/images/fl-1.webp";
 
-const previousPubliication = [
-  {
-    id: 1,
-    title: "NaN 2018",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 2,
-    title: "NaN 2019",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 3,
-    title: "NaN 2020",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 4,
-    title: "NaN 2021",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 5,
-    title: "NaN 2022",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 6,
-    title: "NaN 2023",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-  {
-    id: 7,
-    title: "NaN 2024",
-    link: "https://ieeexplore.ieee.org/xpl/conhome/",
-  },
-];
+// const previousPubliication = [
+//   {
+//     id: 1,
+//     title: "NaN 2018",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 2,
+//     title: "NaN 2019",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 3,
+//     title: "NaN 2020",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 4,
+//     title: "NaN 2021",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 5,
+//     title: "NaN 2022",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 6,
+//     title: "NaN 2023",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+//   {
+//     id: 7,
+//     title: "NaN 2024",
+//     link: "https://ieeexplore.ieee.org/xpl/conhome/",
+//   },
+// ];
 
 const HomeAdditional_A = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
+  const [title, setTitle] = useState("");
+  const [publication, setPublication] = useState<PreviousPublication[]>([]);
+
+  useEffect(() => {
+    const fetchHomeAdditional_A = async () => {
+      try {
+        const data = await getHomeAdditional_A();
+        setTitle(data[0].title);
+        setPublication(data);
+      } catch (err) {
+        console.error("Failed to fetch HomeAdditional_A", err);
+      }
+    };
+    fetchHomeAdditional_A();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -56,7 +73,7 @@ const HomeAdditional_A = () => {
       },
       {
         threshold: 0.3,
-      }
+      },
     );
 
     observer.observe(el);
@@ -76,9 +93,9 @@ const HomeAdditional_A = () => {
             animate ? "animate__fadeInUp opacity-100" : "opacity-0"
           } sm:text-2xl lg:text-4xl font-bold mt-10 sm:my-8 lg:my-16 w-full text-center text-neutral-dark`}
         >
-          NaN Previous Publication : IEEE Xplore & SCOPUS Indexed
+          {title} Previous Publication : IEEE Xplore & SCOPUS Indexed
         </h1>
-        {previousPubliication.map((_, i) => (
+        {/* {previousPubliication.map((_, i) => (
           <div
             key={i}
             className={`animate__animated animate__slow ${
@@ -101,7 +118,36 @@ const HomeAdditional_A = () => {
               </a>
             </div>
           </div>
-        ))}
+        ))} */}
+        {publication.length === 0 ? (
+          <p className="text-center text-sm font-semibold text-gray-400">No Data</p>
+        ) : (
+          publication.map((item, i) => (
+            <div
+              key={item._id}
+              className={`animate__animated animate__slow ${
+                animate ? "animate__fadeInUp opacity-100" : "opacity-0"
+              } group w-full lg:h-10 h-5 sm:h-8 sm:flex`}
+            >
+              <div className="lg:w-52 h-full justify-center items-center flex sm:w-36 w-full">
+                <h1 className="lg:text-2xl font-bold transition-colors group-hover:text-orange-400 sm:text-sm text-xs">
+                  {i + 1}. {title} :
+                </h1>
+              </div>
+
+              <div className="w-full h-full bg-neutral-light rounded-md text-neutral-dark font-semibold transition-colors group-hover:bg-orange-400 group-hover:text-white cursor-pointer">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full h-full pl-5 flex items-center sm:text-lg text-xs"
+                >
+                  {item.url}
+                </a>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

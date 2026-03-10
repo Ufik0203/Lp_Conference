@@ -1,100 +1,106 @@
 import fl_2 from "/images/fl-2.webp";
 import edas_logo from "/logo/edas-logo.webp";
-import tel_u_logo from "/logo/Logo-Vertikal-Telkom-University.webp";
-import ieeeis_logo from "/logo/ieeeis-logo.webp";
+// import tel_u_logo from "/logo/Logo-Vertikal-Telkom-University.webp";
+// import ieeeis_logo from "/logo/ieeeis-logo.webp";
 import Committee from "@/components/Committee";
 import { useEffect, useRef, useState } from "react";
+import type { RegistrationPriceTable } from "@/types/registrationPriceTable";
+import { getRegistrationPriceTable } from "@/services/registrationPriceTable.service";
+import type { RegistrationPayment } from "@/types/registrationPaymentTable";
+import { getRegistrationPaymentTable } from "@/services/registrationPaymentTable.service";
+import type { PartnerResponse } from "@/types/CoOrganizedAndFinancial";
+import { GetCoOrganizedAndFinancial } from "@/services/CoOrganizedAndFinancial.service";
 // import Marquee from "@/components/Marque";
 
-const rows1 = [
-  {
-    id: 1,
-    categories: "IEEE Students Member*",
-    overseas_participants: "$ 275",
-    local_participants: "IDR 2,750,000",
-  },
-  {
-    id: 2,
-    categories: "Regular Students (Non IEEE Member)",
-    overseas_participants: "$ 300",
-    local_participants: "IDR 3,000,000",
-  },
-  {
-    id: 3,
-    categories: "IEEE Profesional Member",
-    overseas_participants: "$ 325",
-    local_participants: "IDR 3,250,000",
-  },
-  {
-    id: 4,
-    categories: "Regular Profesional (Non IEEE Member)",
-    overseas_participants: "$ 350",
-    local_participants: "IDR 3,500,000",
-  },
-  {
-    id: 5,
-    categories: "Extra Paper (per paper)",
-    overseas_participants: "$ 275",
-    local_participants: "IDR 2,750,000",
-  },
-  {
-    id: 6,
-    categories: "Attendee Non Presenter",
-    overseas_participants: "$ 75",
-    local_participants: "IDR 750,000",
-  },
-  {
-    id: 7,
-    categories: "Additional Fee per Page (For papers longer than 6 pages)",
-    overseas_participants: "$ 50",
-    local_participants: "IDR 500,000",
-  },
-];
+// const rows1 = [
+//   {
+//     id: 1,
+//     categories: "IEEE Students Member*",
+//     overseas_participants: "$ 275",
+//     local_participants: "IDR 2,750,000",
+//   },
+//   {
+//     id: 2,
+//     categories: "Regular Students (Non IEEE Member)",
+//     overseas_participants: "$ 300",
+//     local_participants: "IDR 3,000,000",
+//   },
+//   {
+//     id: 3,
+//     categories: "IEEE Profesional Member",
+//     overseas_participants: "$ 325",
+//     local_participants: "IDR 3,250,000",
+//   },
+//   {
+//     id: 4,
+//     categories: "Regular Profesional (Non IEEE Member)",
+//     overseas_participants: "$ 350",
+//     local_participants: "IDR 3,500,000",
+//   },
+//   {
+//     id: 5,
+//     categories: "Extra Paper (per paper)",
+//     overseas_participants: "$ 275",
+//     local_participants: "IDR 2,750,000",
+//   },
+//   {
+//     id: 6,
+//     categories: "Attendee Non Presenter",
+//     overseas_participants: "$ 75",
+//     local_participants: "IDR 750,000",
+//   },
+//   {
+//     id: 7,
+//     categories: "Additional Fee per Page (For papers longer than 6 pages)",
+//     overseas_participants: "$ 50",
+//     local_participants: "IDR 500,000",
+//   },
+// ];
 
-const rows2 = [
-  {
-    id: 1,
-    categories: "IEEE Students Member*",
-    overseas_participants: "$ 300",
-    local_participants: "IDR 3,000,000",
-  },
-  {
-    id: 2,
-    categories: "Regular Students (Non IEEE Member)",
-    overseas_participants: "$ 325",
-    local_participants: "IDR 3,250,000",
-  },
-  {
-    id: 3,
-    categories: "IEEE Profesional Member",
-    overseas_participants: "$ 350",
-    local_participants: "IDR 3,500,000",
-  },
-  {
-    id: 4,
-    categories: "Regular Profesional (Non IEEE Member)",
-    overseas_participants: "$ 375",
-    local_participants: "IDR 3,750,000",
-  },
-  {
-    id: 5,
-    categories: "Extra Paper (per paper)",
-    overseas_participants: "$ 275",
-    local_participants: "IDR 2,750,000",
-  },
-  {
-    id: 6,
-    categories: "Attendee Non Presenter",
-    overseas_participants: "$ 75",
-    local_participants: "IDR 750,000",
-  },
-  {
-    id: 7,
-    categories: "Additional Fee per Page (For papers longer than 6 pages)",
-    overseas_participants: "$ 50",
-    local_participants: "IDR 500,000",
-  },
-];
+// const rows2 = [
+//   {
+//     id: 1,
+//     categories: "IEEE Students Member*",
+//     overseas_participants: "$ 300",
+//     local_participants: "IDR 3,000,000",
+//   },
+//   {
+//     id: 2,
+//     categories: "Regular Students (Non IEEE Member)",
+//     overseas_participants: "$ 325",
+//     local_participants: "IDR 3,250,000",
+//   },
+//   {
+//     id: 3,
+//     categories: "IEEE Profesional Member",
+//     overseas_participants: "$ 350",
+//     local_participants: "IDR 3,500,000",
+//   },
+//   {
+//     id: 4,
+//     categories: "Regular Profesional (Non IEEE Member)",
+//     overseas_participants: "$ 375",
+//     local_participants: "IDR 3,750,000",
+//   },
+//   {
+//     id: 5,
+//     categories: "Extra Paper (per paper)",
+//     overseas_participants: "$ 275",
+//     local_participants: "IDR 2,750,000",
+//   },
+//   {
+//     id: 6,
+//     categories: "Attendee Non Presenter",
+//     overseas_participants: "$ 75",
+//     local_participants: "IDR 750,000",
+//   },
+//   {
+//     id: 7,
+//     categories: "Additional Fee per Page (For papers longer than 6 pages)",
+//     overseas_participants: "$ 50",
+//     local_participants: "IDR 500,000",
+//   },
+// ];
 
 const Registration = () => {
   const ref1 = useRef<HTMLDivElement | null>(null);
@@ -105,6 +111,48 @@ const Registration = () => {
   const [animate2, setAnimate2] = useState(false);
   const [animate3, setAnimate3] = useState(false);
   const [animate4, setAnimate4] = useState(false);
+  const [tables, setTables] = useState<RegistrationPriceTable[]>([]);
+  const [paymentInfo, setPaymentInfo] = useState<RegistrationPayment | null>(
+    null,
+  );
+  const [partners, setPartners] = useState<PartnerResponse | null>(null);
+
+  useEffect(() => {
+    const fetchTables = async () => {
+      try {
+        const tablesData = await getRegistrationPriceTable();
+        setTables(tablesData);
+      } catch (err) {
+        console.error("Failed to fetch tables", err);
+      }
+    };
+    fetchTables();
+  }, []);
+
+  useEffect(() => {
+    const fetchPayment = async () => {
+      try {
+        const data = await getRegistrationPaymentTable();
+        setPaymentInfo(data);
+      } catch (error) {
+        console.error("Failed to fetch payment info:", error);
+      }
+    };
+    fetchPayment();
+  }, []);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const data = await GetCoOrganizedAndFinancial();
+        setPartners(data);
+      } catch (err) {
+        console.error("Failed to fetch partners", err);
+      }
+    };
+
+    fetchPartners();
+  }, []);
 
   useEffect(() => {
     const el = ref1.current;
@@ -119,7 +167,7 @@ const Registration = () => {
       },
       {
         threshold: 0.3,
-      }
+      },
     );
 
     observer.observe(el);
@@ -139,7 +187,7 @@ const Registration = () => {
       },
       {
         threshold: 0.3,
-      }
+      },
     );
 
     observer.observe(el);
@@ -159,7 +207,7 @@ const Registration = () => {
       },
       {
         threshold: 0.4,
-      }
+      },
     );
 
     observer.observe(el);
@@ -179,18 +227,25 @@ const Registration = () => {
       },
       {
         threshold: 0.4,
-      }
+      },
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  const rows1 = tables[0]?.rows ?? [];
+  const rows2 = tables[1]?.rows ?? [];
+
+  const formatUSD = (value: number) => `$ ${value}`;
+
+  const formatIDR = (value: number) => `IDR ${value.toLocaleString("id-ID")}`;
+
   return (
-    <div className="w-full 2xl:h-944.5 flex flex-col">
+    <div className="w-full lg:min-h-885 2xl:h-944.5 flex flex-col">
       <div
         ref={ref1}
-        className="w-full h-275 sm:h-319.25 border-t-2 border-secondary-accent relative flex flex-col"
+        className="w-full min-h-275 sm:min-h-319.25 border-t-2 border-secondary-accent relative flex flex-col"
       >
         <div className="absolute h-full w-full bg-neutral-dark z-0" />
         <div className="lg:max-w-6xl lg:mx-auto h-full z-20 flex flex-col mx-2">
@@ -221,7 +276,15 @@ const Registration = () => {
               <p className="mt-5 text-xs sm:text-lg">
                 Registration Fee for Submission{" "}
                 <span className="text-orange-400 font-semibold">
-                  Paper BEFORE 16 October 2025
+                  {tables[0]?.deadlineType}{" "}
+                  {new Date(tables[0]?.deadlineDate).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    },
+                  )}
                 </span>
               </p>
             </div>
@@ -251,7 +314,7 @@ const Registration = () => {
                 <tbody>
                   {rows1.map((row, idx) => (
                     <tr
-                      key={row.id}
+                      key={row._id}
                       className={`transition-colors hover:bg-secondary-accent/10 ${
                         idx % 2 === 1
                           ? "bg-secondary-accent/5"
@@ -259,16 +322,16 @@ const Registration = () => {
                       }`}
                     >
                       <td className="border-b border-secondary-accent/20 px-5 py-4">
-                        {row.id}
+                        {row.order}
                       </td>
                       <td className="border-b border-secondary-accent/20 px-5 py-4 font-semibold">
-                        {row.categories}
+                        {row.category}
                       </td>
                       <td className="border-b border-secondary-accent/20 px-5 py-4">
-                        {row.overseas_participants}
+                        {formatUSD(row.overseasPrice)}
                       </td>
                       <td className="border-b border-secondary-accent/20 px-5 py-4">
-                        {row.local_participants}
+                        {formatIDR(row.localPrice)}
                       </td>
                     </tr>
                   ))}
@@ -283,7 +346,15 @@ const Registration = () => {
               <p className="mt-10 text-xs sm:text-lg">
                 Registration Fee for Submission{" "}
                 <span className="text-orange-400 font-semibold">
-                  Paper AFTER 16 October 2025
+                  {tables[1]?.deadlineType}{" "}
+                  {new Date(tables[1]?.deadlineDate).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    },
+                  )}
                 </span>
               </p>
               <div className="mt-4 w-full overflow-x-scroll sm:overflow-x-auto rounded-xl border border-secondary-accent/40">
@@ -308,7 +379,7 @@ const Registration = () => {
                   <tbody>
                     {rows2.map((row, idx) => (
                       <tr
-                        key={row.id}
+                        key={row._id}
                         className={`transition-colors hover:bg-secondary-accent/10 ${
                           idx % 2 === 1
                             ? "bg-secondary-accent/5"
@@ -316,16 +387,16 @@ const Registration = () => {
                         }`}
                       >
                         <td className="border-b border-secondary-accent/20 px-5 py-4">
-                          {row.id}
+                          {row.order}
                         </td>
                         <td className="border-b border-secondary-accent/20 px-5 py-4 font-semibold">
-                          {row.categories}
+                          {row.category}
                         </td>
                         <td className="border-b border-secondary-accent/20 px-5 py-4">
-                          {row.overseas_participants}
+                          {formatUSD(row.overseasPrice)}
                         </td>
                         <td className="border-b border-secondary-accent/20 px-5 py-4">
-                          {row.local_participants}
+                          {formatIDR(row.localPrice)}
                         </td>
                       </tr>
                     ))}
@@ -416,10 +487,10 @@ const Registration = () => {
                   <p>:</p>
                 </div>
                 <div className="text-secondary-accent ml-2 grid grid-rows-4 sm:text-lg font-bold">
-                  <p>Bank XXX</p>
-                  <p>xxxBISA</p>
-                  <p>Jhon Doe</p>
-                  <p>1827xxxxx</p>
+                  <p>{paymentInfo?.overseasParticipant.bank || "No Data"}</p>
+                  <p>{paymentInfo?.overseasParticipant.swiftCode || "No Data"}</p>
+                  <p>{paymentInfo?.overseasParticipant.beneficiaryName || "No Data"}</p>
+                  <p>{paymentInfo?.overseasParticipant.accountNo || "No Data"}</p>
                 </div>
               </div>
               <h3 className="mt-3 sm:mt-5 text-orange-400">Note:</h3>
@@ -455,9 +526,9 @@ const Registration = () => {
                   <p>:</p>
                 </div>
                 <div className="text-secondary-accent ml-2 grid grid-rows-3 sm:text-lg font-bold">
-                  <p>Bank XXX</p>
-                  <p>Jhon Doe</p>
-                  <p>1827xxxxx</p>
+                  <p>{paymentInfo?.localParticipant.bank || "No Data"}</p>
+                  <p>{paymentInfo?.localParticipant.beneficiaryName || "No Data"}</p>
+                  <p>{paymentInfo?.localParticipant.accountNo || "No Data"}</p>
                 </div>
               </div>
             </div>
@@ -476,7 +547,7 @@ const Registration = () => {
                 className={`mt-4 px-4 py-2 flex items-center gap-2 
                 bg-primary-accent text-white rounded-md cursor-pointer hover:bg-orange-400 
                 transition-all duration-200 ease-in-out shadow-md hover:shadow-lg active:shadow-sm 
-                active:scale-[0.90] active:translate-y-px font-semibold`}
+                active:scale-[0.90] active:translate-y-px font-semibold 2xl:mb-5`}
               >
                 Registration
               </button>
@@ -513,7 +584,7 @@ const Registration = () => {
       </div>
       <div
         ref={ref4}
-        className="w-full flex lg:h-106 flex-col pt-3 sm:pt-6 border-t-2 border-secondary-accent"
+        className="w-full flex min-h-120 lg:min-h-106 flex-col pt-3 sm:pt-6 border-t-2 border-secondary-accent"
       >
         <div className="w-full sm:h-50 flex flex-col">
           <div
@@ -534,10 +605,40 @@ const Registration = () => {
               animate4 ? "animate__zoomIn opacity-100" : "opacity-0"
             } flex justify-center`}
           >
-            <img src={tel_u_logo} alt="" className="h-35" />
+            {/* <img src={tel_u_logo} alt="" className="h-35" /> */}
+            {/* <div className="flex justify-center gap-10 2xl:gap-20 flex-wrap">
+              {partners?.organizedBy
+                ?.sort((a, b) => a.order - b.order)
+                .map((item) => (
+                  <img
+                    key={item._id}
+                    src={item.image_url}
+                    alt="organized-by"
+                    className="h-30 w-60 object-contain"
+                  />
+                ))}
+            </div> */}
+            {partners?.organizedBy?.length ? (
+              <div className="flex justify-center gap-10 2xl:gap-20 flex-wrap">
+                {partners.organizedBy
+                  .sort((a, b) => a.order - b.order)
+                  .map((item) => (
+                    <img
+                      key={item._id}
+                      src={item.image_url}
+                      alt="organized-by"
+                      className="h-30 w-60 object-contain"
+                    />
+                  ))}
+              </div>
+            ) : (
+              <p className="text-center text-sm text-gray-500 font-semibold">
+                No Data
+              </p>
+            )}
           </div>
         </div>
-        <div className="w-full h-40 sm:h-50 flex flex-col">
+        <div className="w-full flex flex-col py-6">
           <div
             className={`animate__animated animate__slow ${
               animate4 ? "animate__fadeInLeft opacity-100" : "opacity-0"
@@ -556,7 +657,37 @@ const Registration = () => {
               animate4 ? "animate__zoomIn opacity-100" : "opacity-0"
             } flex justify-center`}
           >
-            <img src={ieeeis_logo} alt="" className="w-56" />
+            {/* <img src={ieeeis_logo} alt="" className="w-56" /> */}
+            {/* <div className="flex justify-center gap-10 2xl:gap-20 flex-wrap">
+              {partners?.financialCoSponsoredBy
+                ?.sort((a, b) => a.order - b.order)
+                .map((item) => (
+                  <img
+                    key={item._id}
+                    src={item.image_url}
+                    alt="financial-co-sponsored"
+                    className="w-60 object-contain h-30"
+                  />
+                ))}
+            </div> */}
+            {partners?.financialCoSponsoredBy?.length ? (
+              <div className="flex justify-center gap-10 2xl:gap-20 flex-wrap">
+                {partners.financialCoSponsoredBy
+                  .sort((a, b) => a.order - b.order)
+                  .map((item) => (
+                    <img
+                      key={item._id}
+                      src={item.image_url}
+                      alt="financial-co-sponsored"
+                      className="w-60 object-contain h-30"
+                    />
+                  ))}
+              </div>
+            ) : (
+              <p className="text-center text-sm text-gray-500 font-semibold">
+                No Data
+              </p>
+            )}
           </div>
         </div>
       </div>

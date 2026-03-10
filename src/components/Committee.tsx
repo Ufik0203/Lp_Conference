@@ -3,7 +3,9 @@ import slide1 from "/images/slide-1.webp";
 import slide2 from "/images/slide-2.webp";
 import slide3 from "/images/slide-3.webp";
 import slide4 from "/images/slide-4.webp";
-import { steering_committee_data } from "@/Data/ComitteeData";
+// import { steering_committee_data } from "@/Data/ComitteeData";
+import type { CommitteeInterface } from "@/types/committee";
+import { getCommittee } from "@/services/committee.service";
 
 type TabKey =
   | "steering_committee"
@@ -13,64 +15,64 @@ type TabKey =
   | "technical_support";
 
 type Member = {
-  id: number;
+  id: string;
   name: string;
   university: string;
   country: string;
 };
 
-type TabContent = {
-  title: string;
-  body: Member[];
-};
+// type TabContent = {
+//   title: string;
+//   body: Member[];
+// };
 
 const ROWS_PER_PAGE = 5;
 
-const TAB: Record<
-  Exclude<TabKey, "technical_program_committee">,
-  TabContent
-> = {
-  steering_committee: {
-    title: "Steering Committee",
-    body: steering_committee_data,
-  },
-  organizing_committee: {
-    title: "Organizing Committee",
-    body: [],
-  },
-  technical_committee: {
-    title: "Technical Committee",
-    body: [],
-  },
-  technical_support: {
-    title: "Technical Support",
-    body: [],
-  },
-};
+// const TAB: Record<
+//   Exclude<TabKey, "technical_program_committee">,
+//   TabContent
+// > = {
+//   steering_committee: {
+//     title: "Steering Committee",
+//     body: steering_committee_data,
+//   },
+//   organizing_committee: {
+//     title: "Organizing Committee",
+//     body: [],
+//   },
+//   technical_committee: {
+//     title: "Technical Committee",
+//     body: [],
+//   },
+//   technical_support: {
+//     title: "Technical Support",
+//     body: [],
+//   },
+// };
 
-const TPC_PAGES = [
-  {
-    id: 1,
-    title: "TPC Chair",
-    name: ["name 1", "name 2"],
-    university: ["univ 1", "univ 2"],
-    country: ["country 1", "country 2"],
-  },
-  {
-    id: 2,
-    title: "TPC Member",
-    name: ["name 1", "name 2", "name 3", "name 4", "name 5", "name 6"],
-    university: ["univ 1", "univ 2", "univ 3", "univ 4", "univ 5", "univ 6"],
-    country: [
-      "country 1",
-      "country 2",
-      "country 3",
-      "country 4",
-      "country 5",
-      "country 6",
-    ],
-  },
-];
+// const TPC_PAGES = [
+//   {
+//     id: 1,
+//     title: "TPC Chair",
+//     name: ["name 1", "name 2"],
+//     university: ["univ 1", "univ 2"],
+//     country: ["country 1", "country 2"],
+//   },
+//   {
+//     id: 2,
+//     title: "TPC Member",
+//     name: ["name 1", "name 2", "name 3", "name 4", "name 5", "name 6"],
+//     university: ["univ 1", "univ 2", "univ 3", "univ 4", "univ 5", "univ 6"],
+//     country: [
+//       "country 1",
+//       "country 2",
+//       "country 3",
+//       "country 4",
+//       "country 5",
+//       "country 6",
+//     ],
+//   },
+// ];
 
 function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(n, max));
@@ -94,30 +96,94 @@ const Committee = () => {
   const [tpcSection, setTpcSection] = useState(0);
   const [tpcPage, setTpcPage] = useState(0);
   const [pageFading, setPageFading] = useState(false);
+  const [committeeData, setCommitteeData] = useState<CommitteeInterface | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const fetchCommittee = async () => {
+      try {
+        const data = await getCommittee();
+        setCommitteeData(data);
+      } catch (err) {
+        console.error("Failed to fetch committee", err);
+      }
+    };
+
+    fetchCommittee();
+  }, []);
+
+  const mapMembers = (
+    members?: CommitteeInterface["steeringCommittee"]["members"],
+  ): Member[] =>
+    members?.map((m) => ({
+      id: m._id,
+      name: m.name,
+      university: m.university,
+      country: m.country,
+    })) ?? [];
+
+  const TAB = useMemo(() => {
+    if (!committeeData) {
+      return {
+        steering_committee: { title: "Steering Committee", body: [] },
+        organizing_committee: { title: "Organizing Committee", body: [] },
+        technical_committee: { title: "Technical Committee", body: [] },
+        technical_support: { title: "Technical Support", body: [] },
+      };
+    }
+    return {
+      steering_committee: {
+        title: "Steering Committee",
+        body: mapMembers(committeeData.steeringCommittee.members),
+      },
+      organizing_committee: {
+        title: "Organizing Committee",
+        body: mapMembers(committeeData.organizingCommittee.members),
+      },
+      technical_committee: {
+        title: "Technical Committee",
+        body: mapMembers(committeeData.technicalCommittee.members),
+      },
+      technical_support: {
+        title: "Technical Support",
+        body: mapMembers(committeeData.technicalSupport.members),
+      },
+    };
+  }, [committeeData]);
 
   const TPC = useMemo(() => {
-    return TPC_PAGES.map((p) => ({
-      id: p.id,
-      title: p.title,
-      body: p.name.map((nm, i) => ({
-        id: Number(`${p.id}${i}`),
-        name: nm,
-        university: p.university[i] ?? "-",
-        country: p.country[i] ?? "-",
-      })) as Member[],
+    if (!committeeData) return [];
+    return committeeData.technicalProgramCommittee.sections.map((sec) => ({
+      id: sec._id,
+      title: sec.title,
+      body: mapMembers(sec.members),
     }));
-  }, []);
+  }, [committeeData]);
+
+  // const TPC = useMemo(() => {
+  //   return TPC_PAGES.map((p) => ({
+  //     id: p.id,
+  //     title: p.title,
+  //     body: p.name.map((nm, i) => ({
+  //       id: Number(`${p.id}${i}`),
+  //       name: nm,
+  //       university: p.university[i] ?? "-",
+  //       country: p.country[i] ?? "-",
+  //     })) as Member[],
+  //   }));
+  // }, []);
 
   const imgSrc =
     activeTab === "steering_committee"
       ? slide1
       : activeTab === "technical_program_committee"
-      ? slide2
-      : activeTab === "organizing_committee"
-      ? slide3
-      : activeTab === "technical_committee"
-      ? slide4
-      : slide1;
+        ? slide2
+        : activeTab === "organizing_committee"
+          ? slide3
+          : activeTab === "technical_committee"
+            ? slide4
+            : slide1;
 
   const switchTab = (next: TabKey) => {
     setFading(true);
@@ -217,7 +283,7 @@ const Committee = () => {
   const normalSafePage = clamp(tabPage, 0, normalTotalPages - 1);
   const normalPageRows = !isTPC ? slicePage(normalRows, normalSafePage) : [];
 
-  const tpcRows = isTPC ? TPC[tpcSection]?.body ?? [] : [];
+  const tpcRows = isTPC ? (TPC[tpcSection]?.body ?? []) : [];
   const tpcTotalPages = isTPC ? pageCount(tpcRows.length) : 1;
   const tpcSafePage = clamp(tpcPage, 0, tpcTotalPages - 1);
   const tpcPageRows = isTPC ? slicePage(tpcRows, tpcSafePage) : [];
@@ -263,7 +329,7 @@ const Committee = () => {
       },
       {
         threshold: 0.2,
-      }
+      },
     );
 
     observer.observe(el);
@@ -362,7 +428,7 @@ const Committee = () => {
                       className="px-5 py-2 rounded-lg shadow-xl bg-neutral-dark cursor-pointer text-white disabled:opacity-40 font-semibold text-sm hover:bg-orange-400 disabled:cursor-not-allowed"
                       onClick={() =>
                         animatePage(() =>
-                          setTpcPage((p) => clamp(p - 1, 0, tpcTotalPages - 1))
+                          setTpcPage((p) => clamp(p - 1, 0, tpcTotalPages - 1)),
                         )
                       }
                       disabled={tpcSafePage === 0}
@@ -379,7 +445,7 @@ const Committee = () => {
                       className="px-5 py-2 rounded-lg shadow-xl bg-neutral-dark text-white cursor-pointer disabled:opacity-40 font-semibold text-sm hover:bg-orange-400 disabled:cursor-not-allowed"
                       onClick={() =>
                         animatePage(() =>
-                          setTpcPage((p) => clamp(p + 1, 0, tpcTotalPages - 1))
+                          setTpcPage((p) => clamp(p + 1, 0, tpcTotalPages - 1)),
                         )
                       }
                       disabled={tpcSafePage === tpcTotalPages - 1}
@@ -405,8 +471,8 @@ const Committee = () => {
                       onClick={() =>
                         animatePage(() =>
                           setTabPage((p) =>
-                            clamp(p - 1, 0, normalTotalPages - 1)
-                          )
+                            clamp(p - 1, 0, normalTotalPages - 1),
+                          ),
                         )
                       }
                       disabled={normalSafePage === 0}
@@ -424,8 +490,8 @@ const Committee = () => {
                       onClick={() =>
                         animatePage(() =>
                           setTabPage((p) =>
-                            clamp(p + 1, 0, normalTotalPages - 1)
-                          )
+                            clamp(p + 1, 0, normalTotalPages - 1),
+                          ),
                         )
                       }
                       disabled={normalSafePage === normalTotalPages - 1}

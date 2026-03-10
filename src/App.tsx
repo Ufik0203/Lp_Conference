@@ -8,7 +8,6 @@ import HomeAdditional_C from "./section/HomeAdditional_C";
 import CallForPaper from "./section/CallForPaper";
 import CallForPaperAdditional_B from "./section/CallForPaperAdditional_B";
 import CallForPaperAdditional_A from "./section/CallForPaperAdditional_A";
-import ImportantDates from "./section/ImportantDates";
 import Speakers from "./section/Speakers";
 import SpeakersAdditional_A from "./section/SpeakersAdditional_A";
 import Registration from "./section/Registration";
@@ -18,6 +17,8 @@ import Countdown from "./components/Countdown";
 import { FaCircleChevronUp } from "react-icons/fa6";
 import "animate.css";
 import Loader from "./components/Loader";
+import ImportantDatesPages from "./section/ImportantDates";
+import { getImages } from "./services/imageCarousel.service";
 
 const years = [
   {
@@ -89,7 +90,7 @@ function App() {
       ([entry]) => {
         setHideEvents(entry.isIntersecting);
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     observer.observe(el);
@@ -118,7 +119,7 @@ function App() {
         root: null,
         threshold: 0.1,
         rootMargin: `-${navH}px 0px -40% 0px`,
-      }
+      },
     );
 
     sections.forEach(({ ref }) => {
@@ -142,15 +143,29 @@ function App() {
     return () => document.removeEventListener("mousedown", handler);
   }, [archivesOpen]);
 
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      setReady(true);
-      return;
-    }
+  // useEffect(() => {
+  //   if (document.readyState === "complete") {
+  //     setReady(true);
+  //     return;
+  //   }
 
-    const onLoad = () => setReady(true);
-    window.addEventListener("load", onLoad);
-    return () => window.removeEventListener("load", onLoad);
+  //   const onLoad = () => setReady(true);
+  //   window.addEventListener("load", onLoad);
+  //   return () => window.removeEventListener("load", onLoad);
+  // }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([getImages()]);
+
+        setReady(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadData();
   }, []);
 
   return (
@@ -262,7 +277,7 @@ function App() {
         className="overflow-hidden 2xl:min-h-266 h-270 sm:h-300 lg:h-220 2xl:h-266"
       >
         <div className="h-9/10">
-          <ImportantDates />
+          <ImportantDatesPages />
         </div>
         <div className="h-1/10 sm:h-1/7 bg-neutral-dark border-b-2 border-secondary-accent" />
       </section>
@@ -279,7 +294,7 @@ function App() {
       <section
         id="registration"
         ref={registrationRef}
-        className="overflow-hidden 2xl:min-h-944.25 2xl:h-944.25"
+        className="overflow-hidden 2xl:min-h-955 2xl:h-955"
       >
         <Registration />
       </section>
