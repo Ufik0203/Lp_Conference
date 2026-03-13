@@ -11,7 +11,6 @@ const CallForPaperAdditional_A = () => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.6) {
@@ -23,7 +22,6 @@ const CallForPaperAdditional_A = () => {
         threshold: 0.6,
       }
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   });
