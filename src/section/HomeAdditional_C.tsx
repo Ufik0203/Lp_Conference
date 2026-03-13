@@ -1,26 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 // import fl_2 from "/images/fl-2.webp";
-import { getHomeAdditional_C } from "@/services/homeAdditional_C.service";
+// import { getHomeAdditional_C } from "@/services/homeAdditional_C.service";
 import DOMPurify from "dompurify";
+import { useHomeAdditionalC } from "@/Hook/usueHomeAdditional_C";
 
 const HomeAdditional_C = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [body, setBody] = useState("");
-  const [image, setImage] = useState("");
+  // const [body, setBody] = useState("");
+  // const [image, setImage] = useState("");
+  const { data } = useHomeAdditionalC();
+  const image = data?.image_url ?? "";
+  const body = data?.body ?? "";
 
-  useEffect(() => {
-    const fetchHomeAdditional_C = async () => {
-      try {
-        const data = await getHomeAdditional_C();
-        setImage(data?.image_url ?? "");
-        setBody(data?.body ?? "");
-      } catch (err) {
-        console.error("Failed to fetch HomeAdditional_C", err);
-      }
-    };
-    fetchHomeAdditional_C();
-  }, []);
+  // useEffect(() => {
+  //   const fetchHomeAdditional_C = async () => {
+  //     try {
+  //       const data = await getHomeAdditional_C();
+  //       setImage(data?.image_url ?? "");
+  //       setBody(data?.body ?? "");
+  //     } catch (err) {
+  //       console.error("Failed to fetch HomeAdditional_C", err);
+  //     }
+  //   };
+  //   fetchHomeAdditional_C();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -110,7 +114,9 @@ const HomeAdditional_C = () => {
             }}
           />
         ) : (
-          <p className="pt-3 2xl:pt-10 text-sm font-semibold text-gray-400">No data</p>
+          <p className="pt-3 2xl:pt-10 text-sm font-semibold text-gray-400">
+            No data
+          </p>
         )}
       </div>
     </div>

@@ -4,12 +4,15 @@ import edas_logo from "/logo/edas-logo.webp";
 // import ieeeis_logo from "/logo/ieeeis-logo.webp";
 import Committee from "@/components/Committee";
 import { useEffect, useRef, useState } from "react";
-import type { RegistrationPriceTable } from "@/types/registrationPriceTable";
-import { getRegistrationPriceTable } from "@/services/registrationPriceTable.service";
-import type { RegistrationPayment } from "@/types/registrationPaymentTable";
-import { getRegistrationPaymentTable } from "@/services/registrationPaymentTable.service";
-import type { PartnerResponse } from "@/types/CoOrganizedAndFinancial";
-import { GetCoOrganizedAndFinancial } from "@/services/CoOrganizedAndFinancial.service";
+// import type { RegistrationPriceTable } from "@/types/registrationPriceTable";
+// import { getRegistrationPriceTable } from "@/services/registrationPriceTable.service";
+// import type { RegistrationPayment } from "@/types/registrationPaymentTable";
+// import { getRegistrationPaymentTable } from "@/services/registrationPaymentTable.service";
+// import { GetCoOrganizedAndFinancial } from "@/services/coOrganizedAndFinancial.service";
+// import type { PartnerResponse } from "@/types/coOrganizedAndFinancial";
+import { useRegistrationPrice } from "@/Hook/useRegistrationPrice";
+import { useRegistrationPayment } from "@/Hook/useRegistrationPayment";
+import { usePartners } from "@/Hook/usePartners";
 // import Marquee from "@/components/Marque";
 
 // const rows1 = [
@@ -111,48 +114,51 @@ const Registration = () => {
   const [animate2, setAnimate2] = useState(false);
   const [animate3, setAnimate3] = useState(false);
   const [animate4, setAnimate4] = useState(false);
-  const [tables, setTables] = useState<RegistrationPriceTable[]>([]);
-  const [paymentInfo, setPaymentInfo] = useState<RegistrationPayment | null>(
-    null,
-  );
-  const [partners, setPartners] = useState<PartnerResponse | null>(null);
+  // const [tables, setTables] = useState<RegistrationPriceTable[]>([]);
+  // const [paymentInfo, setPaymentInfo] = useState<RegistrationPayment | null>(
+  //   null,
+  // );
+  // const [partners, setPartners] = useState<PartnerResponse | null>(null);
+  const { data: tables = [] } = useRegistrationPrice();
+  const { data: paymentInfo } = useRegistrationPayment();
+  const { data: partners } = usePartners();
 
-  useEffect(() => {
-    const fetchTables = async () => {
-      try {
-        const tablesData = await getRegistrationPriceTable();
-        setTables(tablesData);
-      } catch (err) {
-        console.error("Failed to fetch tables", err);
-      }
-    };
-    fetchTables();
-  }, []);
+  // useEffect(() => {
+  //   const fetchTables = async () => {
+  //     try {
+  //       const tablesData = await getRegistrationPriceTable();
+  //       setTables(tablesData);
+  //     } catch (err) {
+  //       console.error("Failed to fetch tables", err);
+  //     }
+  //   };
+  //   fetchTables();
+  // }, []);
 
-  useEffect(() => {
-    const fetchPayment = async () => {
-      try {
-        const data = await getRegistrationPaymentTable();
-        setPaymentInfo(data);
-      } catch (error) {
-        console.error("Failed to fetch payment info:", error);
-      }
-    };
-    fetchPayment();
-  }, []);
+  // useEffect(() => {
+  //   const fetchPayment = async () => {
+  //     try {
+  //       const data = await getRegistrationPaymentTable();
+  //       setPaymentInfo(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch payment info:", error);
+  //     }
+  //   };
+  //   fetchPayment();
+  // }, []);
 
-  useEffect(() => {
-    const fetchPartners = async () => {
-      try {
-        const data = await GetCoOrganizedAndFinancial();
-        setPartners(data);
-      } catch (err) {
-        console.error("Failed to fetch partners", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPartners = async () => {
+  //     try {
+  //       const data = await GetCoOrganizedAndFinancial();
+  //       setPartners(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch partners", err);
+  //     }
+  //   };
 
-    fetchPartners();
-  }, []);
+  //   fetchPartners();
+  // }, []);
 
   useEffect(() => {
     const el = ref1.current;
@@ -488,9 +494,16 @@ const Registration = () => {
                 </div>
                 <div className="text-secondary-accent ml-2 grid grid-rows-4 sm:text-lg font-bold">
                   <p>{paymentInfo?.overseasParticipant.bank || "No Data"}</p>
-                  <p>{paymentInfo?.overseasParticipant.swiftCode || "No Data"}</p>
-                  <p>{paymentInfo?.overseasParticipant.beneficiaryName || "No Data"}</p>
-                  <p>{paymentInfo?.overseasParticipant.accountNo || "No Data"}</p>
+                  <p>
+                    {paymentInfo?.overseasParticipant.swiftCode || "No Data"}
+                  </p>
+                  <p>
+                    {paymentInfo?.overseasParticipant.beneficiaryName ||
+                      "No Data"}
+                  </p>
+                  <p>
+                    {paymentInfo?.overseasParticipant.accountNo || "No Data"}
+                  </p>
                 </div>
               </div>
               <h3 className="mt-3 sm:mt-5 text-orange-400">Note:</h3>
@@ -527,7 +540,9 @@ const Registration = () => {
                 </div>
                 <div className="text-secondary-accent ml-2 grid grid-rows-3 sm:text-lg font-bold">
                   <p>{paymentInfo?.localParticipant.bank || "No Data"}</p>
-                  <p>{paymentInfo?.localParticipant.beneficiaryName || "No Data"}</p>
+                  <p>
+                    {paymentInfo?.localParticipant.beneficiaryName || "No Data"}
+                  </p>
                   <p>{paymentInfo?.localParticipant.accountNo || "No Data"}</p>
                 </div>
               </div>

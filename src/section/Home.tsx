@@ -14,11 +14,13 @@ import {
   FaRegArrowAltCircleRight,
 } from "react-icons/fa";
 import Countdown from "@/components/Countdown";
-import { getImages } from "@/services/imageCarousel.service";
-import type { ImagesCarousel } from "@/types/imagesCarousel";
-import type { HomeResponse } from "@/types/home";
-import { getHome } from "@/services/home.service";
+// import { getImages } from "@/services/imageCarousel.service";
+// import type { ImagesCarousel } from "@/types/imagesCarousel";
+// import type { HomeResponse } from "@/types/home";
+// import { getHome } from "@/services/home.service";
 import { useTitleAndDates } from "@/Hook/useTitleAndDates";
+import { useImages } from "@/Hook/useImages";
+import { useHome } from "@/Hook/useHome";
 
 type TabKey = "submission" | "using_pdf" | "presentation_slide";
 
@@ -56,22 +58,24 @@ const Home = () => {
   const [fading, setFading] = useState(false);
   const [pdfPage, setPdfPage] = useState(0);
   const [pageFading, setPageFading] = useState(false);
-  const [images, setImages] = useState<ImagesCarousel[]>([]);
-  const [home, setHome] = useState<HomeResponse | null>(null);
+  // const [images, setImages] = useState<ImagesCarousel[]>([]);
+  // const [home, setHome] = useState<HomeResponse | null>(null);
   const [animateKey, setAnimateKey] = useState(0);
   const { data: titleAndDates } = useTitleAndDates();
+  const { data: images = [] } = useImages();
+  const { data: home } = useHome();
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const data = await getImages();
-        setImages(data);
-      } catch (err) {
-        console.error("Failed to fetch Images", err);
-      }
-    };
-    fetchImages();
-  }, []);
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const data = await getImages();
+  //       setImages(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch Images", err);
+  //     }
+  //   };
+  //   fetchImages();
+  // }, []);
 
   // const slides = [slide1, slide2, slide3, slide4].map((src, i) => ({
   //   id: String(i),
@@ -108,17 +112,17 @@ const Home = () => {
           ),
         }));
 
-  useEffect(() => {
-    const fetchHome = async () => {
-      try {
-        const data = await getHome();
-        setHome(data);
-      } catch (err) {
-        console.error("Failed to fetch Home", err);
-      }
-    };
-    fetchHome();
-  }, []);
+  // useEffect(() => {
+  //   const fetchHome = async () => {
+  //     try {
+  //       const data = await getHome();
+  //       setHome(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch Home", err);
+  //     }
+  //   };
+  //   fetchHome();
+  // }, []);
 
   const switchTab = (next: TabKey) => {
     setFading(true);

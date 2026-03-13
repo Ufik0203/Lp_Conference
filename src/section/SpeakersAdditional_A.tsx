@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import pdf_logo from "/logo/pdf-express-logo.webp";
-import type { PdfExpressData } from "@/types/speakerAdditional_ATypes";
+// import type { PdfExpressData } from "@/types/speakerAdditional_ATypes";
 import DOMPurify from "dompurify";
-import { getSpeakerAdditional_A } from "@/services/speakerAdditional_A.service";
+// import { getSpeakerAdditional_A } from "@/services/speakerAdditional_A.service";
+import { useSpeakerAdditionalA } from "@/Hook/useSpeakerAdditional_A";
 
 // const ATA = [
 //   {
@@ -100,15 +101,11 @@ import { getSpeakerAdditional_A } from "@/services/speakerAdditional_A.service";
 
 const htmlToLines = (html: string) => {
   const safeHtml = DOMPurify.sanitize(html);
-
   const container = document.createElement("div");
   container.innerHTML = safeHtml;
-
   const lines: string[] = [];
-
   container.querySelectorAll("p").forEach((p) => {
     const parts = p.innerHTML.split(/<br\s*\/?>/gi);
-
     parts.forEach((part) => {
       const trimmed = part.trim();
       if (trimmed) lines.push(trimmed);
@@ -120,28 +117,31 @@ const htmlToLines = (html: string) => {
 const SpeakersAdditional_A = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [data, setData] = useState<PdfExpressData>({
-    ATA: [],
-    SFC: [],
-    UPE: [],
-  });
+  // const [data, setData] = useState<PdfExpressData>({
+  //   ATA: [],
+  //   SFC: [],
+  //   UPE: [],
+  // });
+  const { data: SpeakerAdditional_A } = useSpeakerAdditionalA();
+  const ATA = SpeakerAdditional_A?.ATA ?? [];
+  const SFC = SpeakerAdditional_A?.SFC ?? [];
+  const UPE = SpeakerAdditional_A?.UPE ?? [];
 
-  useEffect(() => {
-    const fecthSpeakerAdditional_A = async () => {
-      try {
-        const data = await getSpeakerAdditional_A();
-        setData(data);
-      } catch (err) {
-        console.error("Failed to fetch data", err);
-      }
-    };
-    fecthSpeakerAdditional_A();
-  }, []);
+  // useEffect(() => {
+  //   const fecthSpeakerAdditional_A = async () => {
+  //     try {
+  //       const data = await getSpeakerAdditional_A();
+  //       setData(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch data", err);
+  //     }
+  //   };
+  //   fecthSpeakerAdditional_A();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.3) {
@@ -153,7 +153,6 @@ const SpeakersAdditional_A = () => {
         threshold: 0.3,
       },
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -290,12 +289,12 @@ const SpeakersAdditional_A = () => {
           </h3>
 
           <ol className="mt-2 list-decimal list-outside leading-relaxed text-start pl-10">
-            {data.ATA.length === 0 ? (
+            {ATA.length === 0 ? (
               <li className="text-gray-400 text-sm font-semibold list-none">
                 No Data
               </li>
             ) : (
-              data.ATA.map((item) =>
+              ATA.map((item) =>
                 htmlToLines(item.content).map((line, i) => (
                   <li key={`${item._id}-${i}`} className="pl-2 text-gray-500">
                     <span dangerouslySetInnerHTML={{ __html: line }} />.
@@ -317,12 +316,12 @@ const SpeakersAdditional_A = () => {
           </h3>
 
           <ol className="mt-2 list-decimal list-outside leading-relaxed text-start pl-10">
-            {data.SFC.length === 0 ? (
+            {SFC.length === 0 ? (
               <li className="text-gray-400 text-sm font-semibold list-none">
                 No Data
               </li>
             ) : (
-              data.SFC.map((item) =>
+              SFC.map((item) =>
                 htmlToLines(item.content).map((line, i) => (
                   <li key={`${item._id}-${i}`} className="pl-2 text-gray-500">
                     <span dangerouslySetInnerHTML={{ __html: line }} />.
@@ -344,12 +343,12 @@ const SpeakersAdditional_A = () => {
           </h3>
 
           <ol className="mt-2 list-decimal list-outside leading-relaxed text-start pl-10">
-            {data.UPE.length === 0 ? (
+            {UPE.length === 0 ? (
               <li className="text-gray-400 text-sm font-semibold list-none">
                 No Data
               </li>
             ) : (
-              data.UPE.map((item) =>
+              UPE.map((item) =>
                 htmlToLines(item.content).map((line, i) => (
                   <li key={`${item._id}-${i}`} className="pl-2 text-gray-500">
                     <span dangerouslySetInnerHTML={{ __html: line }} />.

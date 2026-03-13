@@ -18,7 +18,7 @@ import { FaCircleChevronUp } from "react-icons/fa6";
 import "animate.css";
 import Loader from "./components/Loader";
 import ImportantDatesPages from "./section/ImportantDates";
-import { getImages } from "./services/imageCarousel.service";
+// import { getImages } from "./services/imageCarousel.service";
 import { useTitleAndDates } from "./Hook/useTitleAndDates";
 
 const years = [
@@ -62,8 +62,10 @@ function App() {
   const [navH, setNavH] = useState(80);
   const [archivesOpen, setArchivesOpen] = useState(false);
   const [hideEvents, setHideEvents] = useState(false);
-  const [ready, setReady] = useState(false);
-  const { data: titleAndDates } = useTitleAndDates();
+  // const [ready, setReady] = useState(false);
+  const { data: titleAndDates, isLoading: titleLoading } = useTitleAndDates();
+
+  const ready = !titleLoading;
 
   useLayoutEffect(() => {
     const update = () => {
@@ -87,14 +89,12 @@ function App() {
   useEffect(() => {
     const el = homeRef.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         setHideEvents(entry.isIntersecting);
       },
       { threshold: 0 },
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -108,7 +108,6 @@ function App() {
       { id: "registration", ref: registrationRef },
       { id: "contact", ref: contactRef },
     ];
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -123,21 +122,17 @@ function App() {
         rootMargin: `-${navH}px 0px -40% 0px`,
       },
     );
-
     sections.forEach(({ ref }) => {
       if (ref.current) observer.observe(ref.current);
     });
-
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     if (!archivesOpen) return;
-
     const handler = (e: MouseEvent) => {
       if (!menuRef.current) return;
       if (menuRef.current.contains(e.target as Node)) return;
-
       setArchivesOpen(false);
     };
 
@@ -156,19 +151,17 @@ function App() {
   //   return () => window.removeEventListener("load", onLoad);
   // }, []);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        await Promise.all([getImages()]);
-
-        setReady(true);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    loadData();
-  }, []);
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     try {
+  //       await Promise.all([getImages()]);
+  //       setReady(true);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+  //   loadData();
+  // }, []);
 
   return (
     <>

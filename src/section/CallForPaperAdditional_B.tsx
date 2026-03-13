@@ -1,5 +1,6 @@
-import { getCallForPaperAdditional_B } from "@/services/callForPaperAdditional_B.service";
-import type { CallForPapersAdditionalBData } from "@/types/callForPaperAdditional_B";
+import { useCallForPaperAdditionalB } from "@/Hook/useCallForPapersAdditional_B";
+// import { getCallForPaperAdditional_B } from "@/services/callForPaperAdditional_B.service";
+// import type { CallForPapersAdditionalBData } from "@/types/callForPaperAdditional_B";
 import { useEffect, useRef, useState } from "react";
 import { MdPlace } from "react-icons/md";
 import { SiGooglemeet } from "react-icons/si";
@@ -88,28 +89,32 @@ import { SiGooglemeet } from "react-icons/si";
 const CallForPaperAdditional_B = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [data, setData] = useState<CallForPapersAdditionalBData>({
-    CGAP: [],
-    IPS: [],
-    VP: [],
-  });
+  // const [data, setData] = useState<CallForPapersAdditionalBData>({
+  //   CGAP: [],
+  //   IPS: [],
+  //   VP: [],
+  // });
+  const { data: callForPaperAdditoinal_B } = useCallForPaperAdditionalB();
 
-  useEffect(() => {
-    const fetchCallForPapersAdditional_B = async () => {
-      try {
-        const data = await getCallForPaperAdditional_B();
-        setData(data);
-      } catch (err) {
-        console.error("Failed to fetch CallForPapersAdditional_B", err);
-      }
-    };
-    fetchCallForPapersAdditional_B();
-  }, []);
+  const CGAP = callForPaperAdditoinal_B?.CGAP ?? [];
+  const IPS = callForPaperAdditoinal_B?.IPS ?? [];
+  const VP = callForPaperAdditoinal_B?.VP ?? [];
+
+  // useEffect(() => {
+  //   const fetchCallForPapersAdditional_B = async () => {
+  //     try {
+  //       const data = await getCallForPaperAdditional_B();
+  //       setData(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch CallForPapersAdditional_B", err);
+  //     }
+  //   };
+  //   fetchCallForPapersAdditional_B();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.3) {
@@ -121,10 +126,9 @@ const CallForPaperAdditional_B = () => {
         threshold: 0.3,
       },
     );
-
     observer.observe(el);
     return () => observer.disconnect();
-  });
+  }, []);
 
   return (
     <div
@@ -140,12 +144,12 @@ const CallForPaperAdditional_B = () => {
           Conference Guidelines And Preparation
         </h1>
       </div>
-      {data.CGAP.length === 0 ? (
+      {CGAP.length === 0 ? (
         <p className="text-center text-sm font-semibold text-gray-400">
           No Data
         </p>
       ) : (
-        data.CGAP.map((item) =>
+        CGAP.map((item) =>
           item.body.map((text, i) => (
             <div
               key={`${item.id}-${i}`}
@@ -171,12 +175,12 @@ const CallForPaperAdditional_B = () => {
             <h1 className="text-center mt-10 text-3xl">In Person Presenters</h1>
             <div className="w-full p-10">
               <ol className="mt-4 list-decimal list-outside leading-relaxed text-start pl-6">
-                {data.IPS.length === 0 ? (
+                {IPS.length === 0 ? (
                   <p className="text-center text-sm font-semibold text-gray-400">
                     No Data
                   </p>
                 ) : (
-                  data.IPS.map((item) =>
+                  IPS.map((item) =>
                     item.body.map((text, i) => (
                       <li key={`${item.id}-${i}`} className="mt-2">
                         {text}
@@ -199,12 +203,12 @@ const CallForPaperAdditional_B = () => {
             <h1 className="text-center mt-10 text-3xl">Virtual Presenters</h1>
             <div className="w-full p-10">
               <ol className="mt-4 list-decimal list-outside leading-relaxed text-start pl-6">
-                {data.VP.length === 0 ? (
+                {VP.length === 0 ? (
                   <p className="text-center text-sm font-semibold text-gray-400">
                     No Data
                   </p>
                 ) : (
-                  data.VP.map((item) =>
+                  VP.map((item) =>
                     item.body.map((text, i) => (
                       <li key={`${item.id}-${i}`} className="mt-2">
                         {text}

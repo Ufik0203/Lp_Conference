@@ -3,26 +3,28 @@ import { MdAttachEmail } from "react-icons/md";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
-import type { ContactTypes } from "@/types/contactTypes";
-import { getContact } from "@/services/contact.service";
+import { useContact } from "@/Hook/useContact";
+// import type { ContactTypes } from "@/types/contactTypes";
+// import { getContact } from "@/services/contact.service";
 
 const Contact = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [data, setData] = useState<ContactTypes | null>(null);
+  // const [data, setData] = useState<ContactTypes | null>(null);
+  const { data: contacts } = useContact();
 
-  useEffect(() => {
-    const fetchContact = async () => {
-      try {
-        const data = await getContact();
-        setData(data);
-      } catch (error) {
-        console.error("Failed to fetch contact:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchContact = async () => {
+  //     try {
+  //       const data = await getContact();
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch contact:", error);
+  //     }
+  //   };
 
-    fetchContact();
-  }, []);
+  //   fetchContact();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -47,10 +49,10 @@ const Contact = () => {
   return (
     <div
       ref={ref}
-      style={{ backgroundImage: `url(${data?.image_url})` }}
+      style={{ backgroundImage: `url(${contacts?.image_url})` }}
       className="w-full h-full flex flex-col relative bg-cover bg-center bg-no-repeat border-t-2 border-secondary-accent"
     >
-      {!data?.image_url && (
+      {!contacts?.image_url && (
         <div className="flex items-center justify-end font-bold pr-10 text-gray-500">
           No Data Image
         </div>
@@ -81,7 +83,7 @@ const Contact = () => {
             <div className="pl-5">
               <h2>Email address</h2>
               <h2 className="sm:text-xl font-bold">
-                {data?.email || "No Data"}
+                {contacts?.email || "No Data"}
               </h2>
             </div>
           </div>
@@ -92,14 +94,14 @@ const Contact = () => {
             <div className="pl-5">
               <h2>WhatsApp Chat</h2>
               <h2 className="sm:text-xl font-bold">
-                {data?.noWhatsApp ? (
+                {contacts?.noWhatsApp ? (
                   <a
-                    href={`https://wa.me/${data.noWhatsApp}`}
+                    href={`https://wa.me/${contacts.noWhatsApp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="sm:text-xl font-bold"
                   >
-                    {data.noWhatsApp}
+                    {contacts.noWhatsApp}
                   </a>
                 ) : (
                   "No Data"
@@ -114,7 +116,7 @@ const Contact = () => {
             <div className="pl-5">
               <h2>Location</h2>
               <h2 className="sm:text-xl font-bold">
-                {data?.location || "No Data"}
+                {contacts?.location || "No Data"}
               </h2>
             </div>
           </div>
@@ -131,16 +133,18 @@ const Contact = () => {
             <p className="text-xl mt-5 sm:mt-8 font-semibold">
               Gedung Aula & SBS
             </p>
-            <p className="sm:my-4 pl-5 sm:pl-0">{data?.venue || "No Data"}</p>
+            <p className="sm:my-4 pl-5 sm:pl-0">
+              {contacts?.venue || "No Data"}
+            </p>
           </div>
           <div
             className={`animate__animated animate__slow ${
               animate ? "animate__zoomIn opacity-100" : "opacity-0"
             } mt-8 sm:mt-5 w-full h-96 rounded-xl border-4`}
           >
-            {data?.urlGmap ? (
+            {contacts?.urlGmap ? (
               <iframe
-                src={data?.urlGmap}
+                src={contacts?.urlGmap}
                 className="w-full h-full border-0 rounded-lg"
                 style={{ border: 0 }}
                 allowFullScreen

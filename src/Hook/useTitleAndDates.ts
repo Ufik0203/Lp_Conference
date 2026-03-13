@@ -6,6 +6,8 @@ export function useTitleAndDates() {
   return useQuery<titleAndDates>({
     queryKey: ["title-and-dates"],
     queryFn: getTitleAndDates,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }

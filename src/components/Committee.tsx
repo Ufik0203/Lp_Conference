@@ -5,7 +5,8 @@ import slide3 from "/images/slide-3.webp";
 import slide4 from "/images/slide-4.webp";
 // import { steering_committee_data } from "@/Data/ComitteeData";
 import type { CommitteeInterface } from "@/types/committee";
-import { getCommittee } from "@/services/committee.service";
+// import { getCommittee } from "@/services/committee.service";
+import { useCommittee } from "@/Hook/useCommittee";
 
 type TabKey =
   | "steering_committee"
@@ -96,22 +97,23 @@ const Committee = () => {
   const [tpcSection, setTpcSection] = useState(0);
   const [tpcPage, setTpcPage] = useState(0);
   const [pageFading, setPageFading] = useState(false);
-  const [committeeData, setCommitteeData] = useState<CommitteeInterface | null>(
-    null,
-  );
+  // const [committeeData, setCommitteeData] = useState<CommitteeInterface | null>(
+  //   null,
+  // );
+  const { data: committeeData } = useCommittee();
 
-  useEffect(() => {
-    const fetchCommittee = async () => {
-      try {
-        const data = await getCommittee();
-        setCommitteeData(data);
-      } catch (err) {
-        console.error("Failed to fetch committee", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCommittee = async () => {
+  //     try {
+  //       const data = await getCommittee();
+  //       setCommitteeData(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch committee", err);
+  //     }
+  //   };
 
-    fetchCommittee();
-  }, []);
+  //   fetchCommittee();
+  // }, []);
 
   const mapMembers = (
     members?: CommitteeInterface["steeringCommittee"]["members"],

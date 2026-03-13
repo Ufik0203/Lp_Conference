@@ -1,11 +1,14 @@
-import logo_1 from "/logo/Logo-Vertikal-Telkom-University.webp";
-import logo_2 from "/logo/ieee-logo.webp";
-import logo_3 from "/logo/scopus-logo.webp";
+// import logo_1 from "/logo/Logo-Vertikal-Telkom-University.webp";
+// import logo_2 from "/logo/ieee-logo.webp";
+// import logo_3 from "/logo/scopus-logo.webp";
+import { useConference } from "@/Hook/useHomeAdditional_B";
 import { useEffect, useRef, useState } from "react";
 
 const HomeAdditional_B = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
+  const { data: images = [] } = useConference();
+  const sortedImages = [...images].sort((a, b) => a.order - b.order);
 
   useEffect(() => {
     const el = ref.current;
@@ -20,7 +23,7 @@ const HomeAdditional_B = () => {
       },
       {
         threshold: 0.5,
-      }
+      },
     );
 
     observer.observe(el);
@@ -32,8 +35,8 @@ const HomeAdditional_B = () => {
       ref={ref}
       className="overflow-hidden w-full h-full bg-neutral-light border-b border-t-2 border-secondary-accent/50"
     >
-      <div className="sm:max-w-2xl lg: xl:max-w-6xl h-full mx-auto grid grid-cols-3">
-        <div
+      <div className="sm:max-w-2xl lg: xl:max-w-7xl h-full mx-auto flex justify-center">
+        {/* <div
           className={`animate__animated animate__slow ${
             animate ? "animate__fadeInUp opacity-100" : "opacity-0"
           } flex items-center justify-center`}
@@ -50,17 +53,20 @@ const HomeAdditional_B = () => {
           } flex items-center justify-center`}
         >
           <img src={logo_2} alt="" className="object-cover" />
-        </div>
+        </div> */}
         <div
-          className={`animate__animated animate__slow ${
+          className={`animate__animated py-2 sm:py-0 flex gap-5 animate__slow ${
             animate ? "animate__fadeInUp opacity-100" : "opacity-0"
           } flex items-center justify-center`}
         >
-          <img
-            src={logo_3}
-            alt=""
-            className="object-cover h-6 sm:h-10 lg:h-16"
-          />
+          {sortedImages.map((img) => (
+            <img
+              key={img._id}
+              src={img.image_url}
+              alt="conference logo"
+              className="object-cover h-6 sm:h-15 lg:h-30 max-w-60"
+            />
+          ))}
         </div>
       </div>
     </div>

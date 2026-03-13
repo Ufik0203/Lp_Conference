@@ -3,8 +3,9 @@ import CardStack from "@/components/CardStack";
 // import fl_2 from "/images/fl-2.webp";
 // import fl_3 from "/images/fl-3.webp";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { SpeakersType } from "@/types/speakers";
-import { getSpeakers } from "@/services/speakers.service";
+// import type { SpeakersType } from "@/types/speakers";
+// import { getSpeakers } from "@/services/speakers.service";
+import { useSpeakers } from "@/Hook/useSpeaker";
 
 // const speakers = [
 //   {
@@ -54,23 +55,25 @@ import { getSpeakers } from "@/services/speakers.service";
 const Speakers = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [data, setData] = useState<SpeakersType[]>([]);
+  // const [data, setData] = useState<SpeakersType[]>([]);
+  const { data: speaker } = useSpeakers();
+  const speakersData = speaker ?? [];
   const [visible, setVisible] = useState(() =>
     typeof window === "undefined" ? 3 : window.innerWidth >= 1024 ? 5 : 3,
   );
   const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    const fetchSpeaker = async () => {
-      try {
-        const data = await getSpeakers();
-        setData(data);
-      } catch (err) {
-        console.error("Failed to fetch Speakers", err);
-      }
-    };
-    fetchSpeaker();
-  }, []);
+  // useEffect(() => {
+  //   const fetchSpeaker = async () => {
+  //     try {
+  //       const data = await getSpeakers();
+  //       setData(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch Speakers", err);
+  //     }
+  //   };
+  //   fetchSpeaker();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -98,7 +101,7 @@ const Speakers = () => {
   }, []);
 
   const speakers =
-    data?.map((item) => ({
+    speakersData?.map((item) => ({
       id: item.order.toString(),
       pict: item.image_url,
       name: item.name,
@@ -140,7 +143,7 @@ const Speakers = () => {
               animate ? "animate__fadeInLeft opacity-100" : "opacity-0"
             } flex w-full h-full`}
           >
-            {data.length > 0 ? (
+            {speakersData.length > 0 ? (
               <CardStack
                 items={items}
                 active={active}

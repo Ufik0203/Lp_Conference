@@ -2,9 +2,10 @@ import CardStack from "@/components/CardStack";
 // import fl_3 from "/images/fl-3.webp";
 import { useEffect, useRef, useState } from "react";
 import ButtonNav from "@/components/ButtonNav";
-import { getCallForPapers } from "@/services/callForPapers.service";
-import type { callForPapersCard } from "@/types/callForPapers";
+// import { getCallForPapers } from "@/services/callForPapers.service";
+// import type { callForPapersCard } from "@/types/callForPapers";
 import DOMPurify from "dompurify";
+import { useCallForPapers } from "@/Hook/useCallForPapers";
 
 // const data = [
 //   {
@@ -88,25 +89,28 @@ const CallForPaper = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
   const [active, setActive] = useState(0);
-  const [cards, setCards] = useState<callForPapersCard[]>([]);
-  const [body, setBody] = useState("");
+  // const [cards, setCards] = useState<callForPapersCard[]>([]);
+  // const [body, setBody] = useState("");
   // const [loading, setLoading] = useState(true);
+  const { data: callForPapers } = useCallForPapers();
+  const cards = callForPapers?.card ?? [];
+  const body = callForPapers?.body ?? "";
 
-  useEffect(() => {
-    const fetchCallForPapers = async () => {
-      try {
-        const data = await getCallForPapers();
-        setCards(data.card || []);
-        setBody(data.body ?? "");
-      } catch (err) {
-        console.error("Failed to fetch CallForPapers", err);
-      }
-      // finally {
-      //   setLoading(false);
-      // }
-    };
-    fetchCallForPapers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCallForPapers = async () => {
+  //     try {
+  //       const data = await getCallForPapers();
+  //       setCards(data.card || []);
+  //       setBody(data.body ?? "");
+  //     } catch (err) {
+  //       console.error("Failed to fetch CallForPapers", err);
+  //     }
+  //     // finally {
+  //     //   setLoading(false);
+  //     // }
+  //   };
+  //   fetchCallForPapers();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -272,7 +276,9 @@ const CallForPaper = () => {
               <div
                 key={item._id}
                 className={
-                  active === index ? " pb-2 bg-white min-w-40" : "pb-2 bg-neutral-light min-w-40"
+                  active === index
+                    ? " pb-2 bg-white min-w-40"
+                    : "pb-2 bg-neutral-light min-w-40"
                 }
               >
                 <ButtonNav

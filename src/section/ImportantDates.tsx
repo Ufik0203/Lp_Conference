@@ -1,29 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import edas from "/logo/edas-logo.webp";
-import type { ImportantDates } from "@/types/importtantDates";
-import { getImportatntDates } from "@/services/importantDates.service";
+import { useImportantDates } from "@/Hook/useImportantDates";
+// import type { ImportantDates } from "@/types/importtantDates";
+// import { getImportatntDates } from "@/services/importantDates.service";
 
 const ImportantDatesPages = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [data, setData] = useState<ImportantDates | null>(null);
+  // const [data, setData] = useState<ImportantDates | null>(null);
+  const { data: importantDates } = useImportantDates();
+  const batches = importantDates?.batch ?? [];
+  const conferenceDate = importantDates?.conferenceDate ?? null;
 
-  useEffect(() => {
-    const fetchImportantDates = async () => {
-      try {
-        const data = await getImportatntDates();
-        setData(data);
-      } catch (err) {
-        console.error("Failed to fetch ImportantDates", err);
-      }
-    };
-    fetchImportantDates();
-  }, []);
+  // useEffect(() => {
+  //   const fetchImportantDates = async () => {
+  //     try {
+  //       const data = await getImportatntDates();
+  //       setData(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch ImportantDates", err);
+  //     }
+  //   };
+  //   fetchImportantDates();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.4) {
@@ -35,7 +38,6 @@ const ImportantDatesPages = () => {
         threshold: 0.4,
       },
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -134,7 +136,7 @@ const ImportantDatesPages = () => {
               </div>
             </div> */}
             <div className="sm:mt-8">
-              {data?.batch.map((batch) => (
+              {batches.map((batch) => (
                 <div key={batch.batchNo}>
                   <h2 className="sm:text-xl text-secondary-accent pl-3 sm:pl-5 font-bold">
                     Batch {batch.batchNo}
@@ -241,8 +243,8 @@ const ImportantDatesPages = () => {
                 font-bold text-lg sm:text-xl`}
             >
               Conference Date :{" "}
-              {data?.conferenceDate
-                ? new Date(data.conferenceDate).toLocaleDateString("en-GB", {
+              {conferenceDate
+                ? new Date(conferenceDate).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",

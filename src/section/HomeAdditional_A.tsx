@@ -1,5 +1,6 @@
-import { getHomeAdditional_A } from "@/services/homeAdditional_A.service";
-import type { PreviousPublication } from "@/types/homeAdditional_A";
+import { useHomeAdditionalA } from "@/Hook/useHomeAdditional_A";
+// import { getHomeAdditional_A } from "@/services/homeAdditional_A.service";
+// import type { PreviousPublication } from "@/types/homeAdditional_A";
 import { useEffect, useRef, useState } from "react";
 // import img1 from "/images/fl-1.webp";
 
@@ -44,21 +45,23 @@ import { useEffect, useRef, useState } from "react";
 const HomeAdditional_A = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
-  const [title, setTitle] = useState("");
-  const [publication, setPublication] = useState<PreviousPublication[]>([]);
+  // const [title, setTitle] = useState("");
+  // const [publication, setPublication] = useState<PreviousPublication[]>([]);
+  const { data: publication = [] } = useHomeAdditionalA();
+  const title = publication[0]?.title ?? "";
 
-  useEffect(() => {
-    const fetchHomeAdditional_A = async () => {
-      try {
-        const data = await getHomeAdditional_A();
-        setTitle(data[0].title);
-        setPublication(data);
-      } catch (err) {
-        console.error("Failed to fetch HomeAdditional_A", err);
-      }
-    };
-    fetchHomeAdditional_A();
-  }, []);
+  // useEffect(() => {
+  //   const fetchHomeAdditional_A = async () => {
+  //     try {
+  //       const data = await getHomeAdditional_A();
+  //       setTitle(data[0].title);
+  //       setPublication(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch HomeAdditional_A", err);
+  //     }
+  //   };
+  //   fetchHomeAdditional_A();
+  // }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -120,7 +123,9 @@ const HomeAdditional_A = () => {
           </div>
         ))} */}
         {publication.length === 0 ? (
-          <p className="text-center text-sm font-semibold text-gray-400">No Data</p>
+          <p className="text-center text-sm font-semibold text-gray-400">
+            No Data
+          </p>
         ) : (
           publication.map((item, i) => (
             <div
