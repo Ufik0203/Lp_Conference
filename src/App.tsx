@@ -20,6 +20,7 @@ import Loader from "./components/Loader";
 import ImportantDatesPages from "./section/ImportantDates";
 // import { getImages } from "./services/imageCarousel.service";
 import { useTitleAndDates } from "./Hook/useTitleAndDates";
+import { useImages } from "./Hook/useImages";
 
 const years = [
   {
@@ -64,8 +65,9 @@ function App() {
   const [hideEvents, setHideEvents] = useState(false);
   // const [ready, setReady] = useState(false);
   const { data: titleAndDates, isLoading: titleLoading } = useTitleAndDates();
+  const { isLoading: imagesLoading } = useImages();
 
-  const ready = !titleLoading;
+  const ready = !titleLoading  && !imagesLoading;
 
   useLayoutEffect(() => {
     const update = () => {
