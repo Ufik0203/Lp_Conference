@@ -47,7 +47,8 @@ const HomeAdditional_A = () => {
   const [animate, setAnimate] = useState(false);
   // const [title, setTitle] = useState("");
   // const [publication, setPublication] = useState<PreviousPublication[]>([]);
-  const { data: publication = [] } = useHomeAdditionalA();
+  const { data } = useHomeAdditionalA();
+  const publication = data ?? [];
   const title = publication[0]?.title ?? "";
 
   // useEffect(() => {
