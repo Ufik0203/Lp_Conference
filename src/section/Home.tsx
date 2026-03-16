@@ -309,10 +309,10 @@ const Home = () => {
                     }`}
                   >
                     <h2 className="text-xl xl:text-[26px] 2xl:text-3xl font-bold">
-                      {PDF_PAGES[pdfPage].title}
+                      {PDF_PAGES[pdfPage]?.title ?? "No Title"}
                     </h2>
                     <p className="sm:mt-2 text-xs lg:text-sm xl:text-base">
-                      {PDF_PAGES[pdfPage].body}
+                      {PDF_PAGES[pdfPage]?.body ?? "No Content"}
                     </p>
                   </div>
                   <div className="sm:mt-auto sm:pt-4">
