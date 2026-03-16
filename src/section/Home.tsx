@@ -21,6 +21,7 @@ import Countdown from "@/components/Countdown";
 import { useTitleAndDates } from "@/Hook/useTitleAndDates";
 import { useImages } from "@/Hook/useImages";
 import { useHome } from "@/Hook/useHome";
+import type { ImagesCarousel } from "@/types/imagesCarousel";
 
 type TabKey = "submission" | "using_pdf" | "presentation_slide";
 
@@ -100,7 +101,7 @@ const Home = () => {
             ),
           },
         ]
-      : images.map((img, i) => ({
+      : images.map((img: ImagesCarousel, i: number) => ({
           id: img._id,
           content: (
             <img
@@ -172,13 +173,7 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!home) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400 font-semibold">
-        Loading to load data...
-      </div>
-    );
-  }
+  if (!home) return null;
 
   const TAB = {
     submission: {

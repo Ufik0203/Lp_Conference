@@ -1,7 +1,7 @@
 import React from "react";
 
 type ButtonNavProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  label: string;
+  label: React.ReactNode;
   active?: boolean;
   b_classname?: string;
   className?: string;
@@ -11,8 +11,18 @@ type ButtonNavProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const ButtonNav = React.forwardRef<HTMLButtonElement, ButtonNavProps>(
   (
-    { onClick, active = false, label, b_classname, className, additionalClassName, children, type, ...rest },
-    ref
+    {
+      onClick,
+      active = false,
+      label,
+      b_classname,
+      className,
+      additionalClassName,
+      children,
+      type,
+      ...rest
+    },
+    ref,
   ) => {
     return (
       <button
@@ -44,7 +54,7 @@ const ButtonNav = React.forwardRef<HTMLButtonElement, ButtonNavProps>(
         />
       </button>
     );
-  }
+  },
 );
 
 export default ButtonNav;

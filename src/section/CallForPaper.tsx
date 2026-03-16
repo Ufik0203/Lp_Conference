@@ -6,6 +6,7 @@ import ButtonNav from "@/components/ButtonNav";
 // import type { callForPapersCard } from "@/types/callForPapers";
 import DOMPurify from "dompurify";
 import { useCallForPapers } from "@/Hook/useCallForPapers";
+import type { callForPapersCard } from "@/types/callForPapers";
 
 // const data = [
 //   {
@@ -131,7 +132,7 @@ const CallForPaper = () => {
   });
 
   const data =
-    cards?.map((item) => ({
+    cards?.map((item: callForPapersCard) => ({
       id: item._id,
       title: item.title,
       body: item.body,
@@ -272,7 +273,7 @@ const CallForPaper = () => {
                 label="Internet Services, Application, Technology"
               />
             </div> */}
-            {cards.map((item, index) => (
+            {cards.map((item: callForPapersCard, index: number) => (
               <div
                 key={item._id}
                 className={
@@ -333,7 +334,7 @@ const CallForPaper = () => {
             label="Internet Services, Application, Technology"
           />
         </div> */}
-        {cards.map((item, index) => (
+        {cards.map((item: callForPapersCard, index: number) => (
           <div
             key={item._id}
             className={

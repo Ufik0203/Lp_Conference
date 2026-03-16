@@ -8,7 +8,9 @@ const HomeAdditional_B = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [animate, setAnimate] = useState(false);
   const { data: images = [] } = useConference();
-  const sortedImages = [...images].sort((a, b) => a.order - b.order);
+  const sortedImages = [...images].sort(
+    (a, b) => (a.order ?? 0) - (b.order ?? 0),
+  );
 
   useEffect(() => {
     const el = ref.current;

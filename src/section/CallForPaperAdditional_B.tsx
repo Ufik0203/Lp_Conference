@@ -95,7 +95,6 @@ const CallForPaperAdditional_B = () => {
   //   VP: [],
   // });
   const { data: callForPaperAdditoinal_B } = useCallForPaperAdditionalB();
-
   const CGAP = callForPaperAdditoinal_B?.CGAP ?? [];
   const IPS = callForPaperAdditoinal_B?.IPS ?? [];
   const VP = callForPaperAdditoinal_B?.VP ?? [];
