@@ -13,6 +13,7 @@ import SpeakersAdditional_A from "./section/SpeakersAdditional_A";
 import Registration from "./section/Registration";
 import Contact from "./section/Contact";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { IoArrowUndoCircleSharp } from "react-icons/io5";
 import Countdown from "./components/Countdown";
 import { FaCircleChevronUp } from "react-icons/fa6";
 import "animate.css";
@@ -420,6 +421,19 @@ function App() {
           >
             <FaCircleChevronUp className="w-7 h-7 sm:w-10 sm:h-10" />
           </button>
+          {archivePage && (
+            <button
+              className={`fixed ${
+                hideEvents
+                  ? "bottom-5 sm:bottom-5 2xl:bottom-5"
+                  : "bottom-29 sm:bottom-35 2xl:bottom-50"
+              } right-2 sm:right-5 rounded-full z-50 bg-secondary-accent cursor-pointer
+          active:scale-60 transition-all duration-200 ease-in-out`}
+              onClick={() => (window.location.href = "/")}
+            >
+              <IoArrowUndoCircleSharp className="w-7 h-7 sm:w-10 sm:h-10" />
+            </button>
+          )}
         </>
       )}
     </>
