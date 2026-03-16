@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import slide1 from "/images/slide-1.webp";
-import slide2 from "/images/slide-2.webp";
-import slide3 from "/images/slide-3.webp";
-import slide4 from "/images/slide-4.webp";
+// import slide1 from "/images/slide-1.webp";
+// import slide2 from "/images/slide-2.webp";
+// import slide3 from "/images/slide-3.webp";
+// import slide4 from "/images/slide-4.webp";
+import default_img from "/images/Default_IMG.webp"
 // import { steering_committee_data } from "@/Data/ComitteeData";
 import type { CommitteeInterface } from "@/types/committee";
 // import { getCommittee } from "@/services/committee.service";
@@ -176,16 +177,30 @@ const Committee = () => {
   //   }));
   // }, []);
 
-  const imgSrc =
-    activeTab === "steering_committee"
-      ? slide1
-      : activeTab === "technical_program_committee"
-        ? slide2
-        : activeTab === "organizing_committee"
-          ? slide3
-          : activeTab === "technical_committee"
-            ? slide4
-            : slide1;
+  // const imgSrc =
+  //   activeTab === "steering_committee"
+  //     ? slide1
+  //     : activeTab === "technical_program_committee"
+  //       ? slide2
+  //       : activeTab === "organizing_committee"
+  //         ? slide3
+  //         : activeTab === "technical_committee"
+  //           ? slide4
+  //           : slide1;
+
+  const imgSrc = useMemo(() => {
+    if (!committeeData) return default_img;
+    const map: Record<TabKey, string> = {
+      steering_committee: committeeData.steeringCommittee.image_url || default_img,
+      organizing_committee:
+        committeeData.organizingCommittee.image_url || default_img,
+      technical_program_committee:
+        committeeData.technicalProgramCommittee.image_url || default_img,
+      technical_committee: committeeData.technicalCommittee.image_url || default_img,
+      technical_support: committeeData.technicalSupport.image_url || default_img,
+    };
+    return map[activeTab];
+  }, [committeeData, activeTab]);
 
   const switchTab = (next: TabKey) => {
     setFading(true);

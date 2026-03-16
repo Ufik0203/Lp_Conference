@@ -1,4 +1,4 @@
-import fl_2 from "/images/fl-2.webp";
+// import fl_2 from "/images/fl-2.webp";
 import edas_logo from "/logo/edas-logo.webp";
 // import tel_u_logo from "/logo/Logo-Vertikal-Telkom-University.webp";
 // import ieeeis_logo from "/logo/ieeeis-logo.webp";
@@ -424,7 +424,7 @@ const Registration = () => {
       </div>
       <div
         ref={ref2}
-        style={{ backgroundImage: `url(${fl_2})` }}
+        style={{ backgroundImage: `url(${paymentInfo?.bg_image_url})` }}
         className="w-full lg:h-212.75 pb-5 lg:pb-0 border-secondary-accent border-b-2 relative flex flex-col bg-cover bg-center bg-no-repeat"
       >
         <div className="absolute h-full w-full bg-neutral-dark/95 z-0" />
