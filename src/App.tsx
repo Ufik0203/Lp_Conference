@@ -145,34 +145,77 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  // useEffect(() => {
+  //   const sections = [
+  //     { id: "home", ref: homeRef },
+  //     { id: "cfp", ref: cfpRef },
+  //     { id: "dates", ref: datesRef },
+  //     { id: "speakers", ref: speakersRef },
+  //     { id: "registration", ref: registrationRef },
+  //     { id: "contact", ref: contactRef },
+  //   ];
+  //   // const observer = new IntersectionObserver(
+  //   //   (entries) => {
+  //   //     entries.forEach((entry) => {
+  //   //       if (entry.isIntersecting) {
+  //   //         setActiveSection(entry.target.id);
+  //   //       }
+  //   //     });
+  //   //   },
+  //   //   {
+  //   //     root: null,
+  //   //     threshold: 0.1,
+  //   //     rootMargin: `-${navH}px 0px -40% 0px`,
+  //   //   },
+  //   // );
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       const visible = entries.filter((e) => e.isIntersecting);
+
+  //       if (visible.length > 0) {
+  //         setActiveSection(visible[0].target.id);
+  //       }
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.1,
+  //       rootMargin: `-${navH}px 0px -30% 0px`,
+  //     },
+  //   );
+  //   sections.forEach(({ ref }) => {
+  //     if (ref.current) observer.observe(ref.current);
+  //   });
+  //   return () => observer.disconnect();
+  // }, [navH]);
+
   useEffect(() => {
-    const sections = [
-      { id: "home", ref: homeRef },
-      { id: "cfp", ref: cfpRef },
-      { id: "dates", ref: datesRef },
-      { id: "speakers", ref: speakersRef },
-      { id: "registration", ref: registrationRef },
-      { id: "contact", ref: contactRef },
-    ];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.1,
-        rootMargin: `-${navH}px 0px -40% 0px`,
-      },
-    );
-    sections.forEach(({ ref }) => {
-      if (ref.current) observer.observe(ref.current);
-    });
-    return () => observer.disconnect();
-  }, []);
+    const handleScroll = () => {
+      const scrollY = window.scrollY + navH + 100;
+
+      if (contactRef.current && scrollY >= contactRef.current.offsetTop)
+        return setActiveSection("contact");
+
+      if (
+        registrationRef.current &&
+        scrollY >= registrationRef.current.offsetTop
+      )
+        return setActiveSection("registration");
+
+      if (speakersRef.current && scrollY >= speakersRef.current.offsetTop)
+        return setActiveSection("speakers");
+
+      if (datesRef.current && scrollY >= datesRef.current.offsetTop)
+        return setActiveSection("dates");
+
+      if (cfpRef.current && scrollY >= cfpRef.current.offsetTop)
+        return setActiveSection("cfp");
+
+      setActiveSection("home");
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [navH]);
 
   useEffect(() => {
     if (!archivesOpen) return;
