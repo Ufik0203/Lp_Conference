@@ -101,7 +101,7 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     className="sm:text-xl font-bold"
                   >
-                    {contacts.noWhatsApp}
+                    {"+" + contacts.noWhatsApp}
                   </a>
                 ) : (
                   "No Data"
