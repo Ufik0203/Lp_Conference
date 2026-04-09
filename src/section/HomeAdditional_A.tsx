@@ -49,7 +49,7 @@ const HomeAdditional_A = () => {
   // const [publication, setPublication] = useState<PreviousPublication[]>([]);
   const { data } = useHomeAdditionalA();
   const publication = data ?? [];
-  const title = publication[0]?.title ?? "";
+  // const title = publication[0]?.title ?? "";
 
   // useEffect(() => {
   //   const fetchHomeAdditional_A = async () => {
@@ -137,7 +137,7 @@ const HomeAdditional_A = () => {
             >
               <div className="lg:w-52 h-full justify-center items-center flex sm:w-36 w-full">
                 <h1 className="lg:text-2xl font-bold transition-colors group-hover:text-orange-400 sm:text-sm text-xs">
-                  {i + 1}. {item.title} :
+                  {i + 1}. {item.title ?? ""} :
                 </h1>
               </div>
 
