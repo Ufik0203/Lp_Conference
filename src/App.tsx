@@ -188,29 +188,65 @@ function App() {
   //   return () => observer.disconnect();
   // }, [navH]);
 
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollY = window.scrollY + navH + 100;
+
+  //     if (contactRef.current && scrollY >= contactRef.current.offsetTop)
+  //       return setActiveSection("contact");
+
+  //     if (
+  //       registrationRef.current &&
+  //       scrollY >= registrationRef.current.offsetTop
+  //     )
+  //       return setActiveSection("registration");
+
+  //     if (speakersRef.current && scrollY >= speakersRef.current.offsetTop)
+  //       return setActiveSection("speakers");
+
+  //     if (datesRef.current && scrollY >= datesRef.current.offsetTop)
+  //       return setActiveSection("dates");
+
+  //     if (cfpRef.current && scrollY >= cfpRef.current.offsetTop)
+  //       return setActiveSection("call-for-paper");
+
+  //     setActiveSection("home");
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [navH]);
+
   useEffect(() => {
+    const setSection = (section: string) => {
+      setActiveSection(section);
+      if (window.location.hash !== `#${section}`) {
+        window.history.replaceState(null, "", `#${section}`);
+      }
+    };
+
     const handleScroll = () => {
       const scrollY = window.scrollY + navH + 100;
 
       if (contactRef.current && scrollY >= contactRef.current.offsetTop)
-        return setActiveSection("contact");
+        return setSection("contact");
 
       if (
         registrationRef.current &&
         scrollY >= registrationRef.current.offsetTop
       )
-        return setActiveSection("registration");
+        return setSection("registration");
 
       if (speakersRef.current && scrollY >= speakersRef.current.offsetTop)
-        return setActiveSection("speakers");
+        return setSection("speakers");
 
       if (datesRef.current && scrollY >= datesRef.current.offsetTop)
-        return setActiveSection("dates");
+        return setSection("dates");
 
       if (cfpRef.current && scrollY >= cfpRef.current.offsetTop)
-        return setActiveSection("call-for-paper");
+        return setSection("call-for-paper");
 
-      setActiveSection("home");
+      setSection("home");
     };
 
     window.addEventListener("scroll", handleScroll);
