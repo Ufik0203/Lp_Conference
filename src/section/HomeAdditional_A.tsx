@@ -97,7 +97,7 @@ const HomeAdditional_A = () => {
             animate ? "animate__fadeInUp opacity-100" : "opacity-0"
           } sm:text-2xl lg:text-4xl font-bold mt-10 sm:my-8 lg:my-16 w-full text-center text-neutral-dark`}
         >
-          {title} Previous Publication : IEEE Xplore & SCOPUS Indexed
+          IBITeC Previous Publication : IEEE Xplore & SCOPUS Indexed
         </h1>
         {/* {previousPubliication.map((_, i) => (
           <div
@@ -137,7 +137,7 @@ const HomeAdditional_A = () => {
             >
               <div className="lg:w-52 h-full justify-center items-center flex sm:w-36 w-full">
                 <h1 className="lg:text-2xl font-bold transition-colors group-hover:text-orange-400 sm:text-sm text-xs">
-                  {i + 1}. {title} :
+                  {i + 1}. {item.title} :
                 </h1>
               </div>
 

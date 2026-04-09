@@ -208,7 +208,7 @@ function App() {
         return setActiveSection("dates");
 
       if (cfpRef.current && scrollY >= cfpRef.current.offsetTop)
-        return setActiveSection("cfp");
+        return setActiveSection("call-for-paper");
 
       setActiveSection("home");
     };
@@ -252,6 +252,59 @@ function App() {
   //   loadData();
   // }, []);
 
+  // useEffect(() => {
+  //   const hash = window.location.hash.replace("#", "");
+  //   if (!hash) return;
+
+  //   const map: Record<string, React.RefObject<HTMLElement | null>> = {
+  //     home: homeRef,
+  //     "call-for-paper": cfpRef,
+  //     dates: datesRef,
+  //     speakers: speakersRef,
+  //     registration: registrationRef,
+  //     contact: contactRef,
+  //   };
+
+  //   const ref = map[hash];
+  //   if (ref?.current) {
+  //     setTimeout(() => {
+  //       scrollTo(ref);
+  //     }, 100);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    const tryScroll = () => {
+      const hash = window.location.hash.replace("#", "");
+
+      const map: Record<string, React.RefObject<HTMLElement | null>> = {
+        home: homeRef,
+        "call-for-paper": cfpRef,
+        dates: datesRef,
+        speakers: speakersRef,
+        registration: registrationRef,
+        contact: contactRef,
+      };
+
+      const ref = map[hash];
+
+      if (hash && ref?.current) {
+        scrollTo(ref);
+        setActiveSection(hash);
+      } else if (!hash) {
+        window.history.replaceState(null, "", "#home");
+      } else {
+        requestAnimationFrame(tryScroll);
+      }
+    };
+
+    tryScroll();
+  }, []);
+
   return (
     <>
       {isPageLoading ? (
@@ -268,32 +321,55 @@ function App() {
           >
             <Navbar>
               <ButtonNav
-                onClick={() => scrollTo(homeRef)}
+                href="#home"
+                onClick={() => {
+                  scrollTo(homeRef);
+                }}
                 label="Home"
                 active={activeSection === "home"}
               />
+
               <ButtonNav
-                onClick={() => scrollTo(cfpRef)}
+                href="#call-for-paper"
+                onClick={() => {
+                  scrollTo(cfpRef);
+                }}
                 label="Call for Paper"
-                active={activeSection === "cfp"}
+                active={activeSection === "call-for-paper"}
               />
+
               <ButtonNav
-                onClick={() => scrollTo(datesRef)}
+                href="#dates"
+                onClick={() => {
+                  scrollTo(datesRef);
+                }}
                 label="Important Dates"
                 active={activeSection === "dates"}
               />
+
               <ButtonNav
-                onClick={() => scrollTo(speakersRef)}
+                href="#speakers"
+                onClick={() => {
+                  scrollTo(speakersRef);
+                }}
                 label="Speakers"
                 active={activeSection === "speakers"}
               />
+
               <ButtonNav
-                onClick={() => scrollTo(registrationRef)}
+                href="#registration"
+                onClick={() => {
+                  scrollTo(registrationRef);
+                }}
                 label="Registration"
                 active={activeSection === "registration"}
               />
+
               <ButtonNav
-                onClick={() => scrollTo(contactRef)}
+                href="#contact"
+                onClick={() => {
+                  scrollTo(contactRef);
+                }}
                 label="Contact"
                 active={activeSection === "contact"}
               />
@@ -386,7 +462,7 @@ function App() {
           </section>
 
           <section
-            id="cfp"
+            id="call-for-paper"
             ref={cfpRef}
             className="2xl:min-h-266 lg:h-220 2xl:h-266"
           >

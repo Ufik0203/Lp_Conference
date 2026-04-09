@@ -51,3 +51,11 @@ body {
     clip-path: polygon(101% -1%, 101% 101%, -1% 101%);
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 80px;
+}
