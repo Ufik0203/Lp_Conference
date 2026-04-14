@@ -17,4 +17,7 @@ export interface RegistrationPayment {
   bg_image_public_id: string;
   overseasParticipant: OverseasParticipant;
   localParticipant: LocalParticipant;
+  registrationLink: string;
+  edasLink: string;
+  presentationSlideLink: string;
 }

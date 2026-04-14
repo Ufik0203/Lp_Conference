@@ -166,7 +166,7 @@ const Contact = () => {
           } lg:max-w-310 lg:mx-auto mx-5 h-full flex sm:items-center`}
         >
           <h3 className="text-neutral-dark font-semibold text-xs sm:text-sm pt-3 sm:pt-0">
-            &copy; 2026 MAT. All rights reserved.
+            &copy; 2026 CoE MOSHEE Telkom University Surabaya Campus. All rights reserved.
           </h3>
         </div>
       </div>

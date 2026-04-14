@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import edas from "/logo/edas-logo.webp";
 import { useImportantDates } from "@/Hook/useImportantDates";
+import { useRegistrationPayment } from "@/Hook/useRegistrationPayment";
 // import type { ImportantDates } from "@/types/importtantDates";
 // import { getImportatntDates } from "@/services/importantDates.service";
 
@@ -11,6 +12,7 @@ const ImportantDatesPages = () => {
   const { data: importantDates } = useImportantDates();
   const batches = importantDates?.batch ?? [];
   const conferenceDate = importantDates?.conferenceDate ?? null;
+  const { data } = useRegistrationPayment();
 
   // useEffect(() => {
   //   const fetchImportantDates = async () => {
@@ -268,11 +270,19 @@ const ImportantDatesPages = () => {
             </p>
             <h2 className="my-3 text-center">
               <span className="font-bold text-orange-400">
-                <a href="#">IEEE Conference Template Doc</a>
+                <a
+                  href="https://www.ieee.org/conferences/publishing/templates"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  IEEE Conference Template Doc
+                </a>
               </span>{" "}
               or{" "}
               <span className="font-bold text-orange-400">
-                <a href="#">Latex Template</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  Latex Template
+                </a>
               </span>
             </h2>
             <hr className="border-t border-gray-400 my-3" />
@@ -283,12 +293,22 @@ const ImportantDatesPages = () => {
                 </span>{" "}
                 via{" "}
                 <span className="sm:text-xl font-extrabold text-orange-400">
-                  <a href="#">EDAS</a>
+                  <a
+                    href={data?.edasLink || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    EDAS
+                  </a>
                 </span>
               </h3>
             </div>
             <div className="w-fit">
-              <a href="#">
+              <a
+                href={data?.edasLink || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img src={edas} alt="edas_logo" className="w-20 h-20" />
               </a>
             </div>

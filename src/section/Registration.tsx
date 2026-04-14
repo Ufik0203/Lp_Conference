@@ -460,12 +460,21 @@ const Registration = () => {
                 <h2 className="mt-5 text-xl font-bold text-secondary-accent">
                   Online Registration via{" "}
                   <span>
-                    <a href="#" className="text-orange-400">
+                    <a
+                      href={paymentInfo?.edasLink || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-orange-400"
+                    >
                       EDAS
                     </a>
                   </span>
                 </h2>
-                <a href="#">
+                <a
+                  href={paymentInfo?.edasLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src={edas_logo} alt="" className="h-16 w-16 ml-2" />
                 </a>
               </div>
@@ -558,14 +567,20 @@ const Registration = () => {
                 meaning you must inform and send proof of transfer at this link
                 below.
               </p>
-              <button
-                className={`mt-4 px-4 py-2 flex items-center gap-2 
-                bg-primary-accent text-white rounded-md cursor-pointer hover:bg-orange-400 
-                transition-all duration-200 ease-in-out shadow-md hover:shadow-lg active:shadow-sm 
-                active:scale-[0.90] active:translate-y-px font-semibold 2xl:mb-5`}
+              <a
+                href={paymentInfo?.registrationLink || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Registration
-              </button>
+                <button
+                  className={`mt-4 px-4 py-2 flex items-center gap-2 
+                  bg-primary-accent text-white rounded-md cursor-pointer hover:bg-orange-400 
+                  transition-all duration-200 ease-in-out shadow-md hover:shadow-lg active:shadow-sm 
+                  active:scale-[0.90] active:translate-y-px font-semibold 2xl:mb-5`}
+                >
+                  Registration
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -607,8 +622,8 @@ const Registration = () => {
               animate4 ? "animate__fadeInRight opacity-100" : "opacity-0"
             } flex ml-5 lg:ml-80 py-5 items-center`}
           >
-            <p className="text-xl sm:text-2xl font-bold text-primary-accent w-46 lg:w-42">
-              Organized by
+            <p className="text-xl sm:text-2xl font-bold text-primary-accent w-65">
+              Co-Organized by
             </p>
             <hr className="h-1 w-full bg-primary-accent border-0" />
           </div>
@@ -660,8 +675,8 @@ const Registration = () => {
             } flex mr-5 lg:mr-80 py-5 items-center`}
           >
             <hr className="w-full h-1 bg-primary-accent border-0" />
-            <p className="ml-1 sm:ml-3 text-xl sm:text-2xl font-bold text-primary-accent w-195 sm:w-120 lg:w-92">
-              Financial Co-Sponsored by
+            <p className="ml-1 sm:ml-3 text-xl sm:text-2xl font-bold text-primary-accent w-100 lg:w-65">
+              Co-Sponsored by
             </p>
           </div>
           {/* <Marquee speed={150} direction={1} className="h-full">

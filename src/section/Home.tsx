@@ -22,6 +22,7 @@ import { useTitleAndDates } from "@/Hook/useTitleAndDates";
 import { useImages } from "@/Hook/useImages";
 import { useHome } from "@/Hook/useHome";
 import type { ImagesCarousel } from "@/types/imagesCarousel";
+import { useRegistrationPayment } from "@/Hook/useRegistrationPayment";
 
 type TabKey = "submission" | "using_pdf" | "presentation_slide";
 
@@ -65,6 +66,7 @@ const Home = () => {
   const { data: titleAndDates } = useTitleAndDates();
   const { data: images = [] } = useImages();
   const { data: home } = useHome();
+  const { data } = useRegistrationPayment();
 
   // useEffect(() => {
   //   const fetchImages = async () => {
@@ -382,22 +384,30 @@ const Home = () => {
                 </div>
               )}
 
-              <button
-                className={`absolute bottom-3 right-3 sm:bottom-5 sm:right-5 lg:bottom-10 lg:right-10 mt-4 px-4 py-2 bg-primary-accent 
+              <a href="#registration">
+                <button
+                  className={`absolute bottom-3 right-3 sm:bottom-5 sm:right-5 lg:bottom-10 lg:right-10 mt-4 px-4 py-2 bg-primary-accent 
                   text-white rounded-md cursor-pointer hover:bg-orange-400 transition-all duration-200 ease-in-out shadow-md hover:shadow-lg active:shadow-sm active:scale-[0.90] active:translate-y-px ${
                     activeTab === "submission" ? "" : "hidden"
                   }`}
+                >
+                  Submit Now
+                </button>
+              </a>
+              <a
+                href={data?.presentationSlideLink || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Submit Now
-              </button>
-              <button
-                className={`absolute bottom-3 right-3 sm:bottom-5 sm:right-5 lg:bottom-10 lg:right-10 mt-4 px-4 py-2 flex items-center gap-2 
+                <button
+                  className={`absolute bottom-3 right-3 sm:bottom-5 sm:right-5 lg:bottom-10 lg:right-10 mt-4 px-4 py-2 flex items-center gap-2 
                   bg-primary-accent text-white rounded-md cursor-pointer hover:bg-orange-400 transition-all duration-200 ease-in-out shadow-md hover:shadow-lg active:shadow-sm active:scale-[0.90] active:translate-y-px ${
                     activeTab === "presentation_slide" ? "" : "hidden"
                   }`}
-              >
-                Go to Presentaion Slide Template <FaRegArrowAltCircleRight />
-              </button>
+                >
+                  Go to Presentaion Slide Template <FaRegArrowAltCircleRight />
+                </button>
+              </a>
             </div>
           </div>
         </div>
