@@ -395,7 +395,7 @@ const Home = () => {
                 </button>
               </a>
               <a
-                href={data?.presentationSlideLink || "#"}
+                href={data?.presentationSlideLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >

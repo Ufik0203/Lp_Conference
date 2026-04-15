@@ -62,12 +62,19 @@ const HomeAdditional_B = () => {
           } flex items-center justify-center`}
         >
           {sortedImages.map((img) => (
-            <img
+            <a
               key={img._id}
-              src={img.image_url}
-              alt="conference logo"
-              className="object-contain h-6 sm:h-15 lg:h-30 max-w-60"
-            />
+              href={img.link_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                key={img._id}
+                src={img.image_url}
+                alt="conference logo"
+                className="object-contain h-6 sm:h-15 lg:h-30 max-w-60"
+              />
+            </a>
           ))}
         </div>
       </div>

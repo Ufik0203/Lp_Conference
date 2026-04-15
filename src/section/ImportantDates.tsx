@@ -280,7 +280,11 @@ const ImportantDatesPages = () => {
               </span>{" "}
               or{" "}
               <span className="font-bold text-orange-400">
-                <a href="#" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://www.ieee.org/conferences/publishing/templates"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Latex Template
                 </a>
               </span>

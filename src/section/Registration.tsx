@@ -461,7 +461,7 @@ const Registration = () => {
                   Online Registration via{" "}
                   <span>
                     <a
-                      href={paymentInfo?.edasLink || "#"}
+                      href={paymentInfo?.edasLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-orange-400"
@@ -471,7 +471,7 @@ const Registration = () => {
                   </span>
                 </h2>
                 <a
-                  href={paymentInfo?.edasLink || "#"}
+                  href={paymentInfo?.edasLink}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -568,7 +568,7 @@ const Registration = () => {
                 below.
               </p>
               <a
-                href={paymentInfo?.registrationLink || "#"}
+                href={paymentInfo?.registrationLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -653,12 +653,19 @@ const Registration = () => {
                 {partners.organizedBy
                   .sort((a, b) => a.order - b.order)
                   .map((item) => (
-                    <img
+                    <a
                       key={item._id}
-                      src={item.image_url}
-                      alt="organized-by"
-                      className="h-30 w-60 object-contain"
-                    />
+                      href={item.link_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        key={item._id}
+                        src={item.image_url}
+                        alt="organized-by"
+                        className="h-30 w-60 object-contain"
+                      />
+                    </a>
                   ))}
               </div>
             ) : (
@@ -705,12 +712,19 @@ const Registration = () => {
                 {partners.financialCoSponsoredBy
                   .sort((a, b) => a.order - b.order)
                   .map((item) => (
-                    <img
+                    <a
                       key={item._id}
-                      src={item.image_url}
-                      alt="financial-co-sponsored"
-                      className="w-60 object-contain h-30"
-                    />
+                      href={item.link_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        key={item._id}
+                        src={item.image_url}
+                        alt="financial-co-sponsored"
+                        className="w-60 object-contain h-30"
+                      />
+                    </a>
                   ))}
               </div>
             ) : (
