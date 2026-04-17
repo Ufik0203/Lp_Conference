@@ -28,7 +28,7 @@ const CallForPaperAdditional_A = () => {
 
   return (
     <div ref={ref} className="overflow-hidden w-full h-full bg-primary-accent border-b border-t-2 border-secondary-accent">
-      <div className="sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl py-8 lg:py-0 mx-auto h-full grid grid-cols-4">
+      <div className="sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl py-8 2xl:py-0 mx-auto h-full grid grid-cols-4">
         <div className={`animate__animated animate__slow ${animate ? "animate__fadeInUp opacity-100" : "opacity-0"} flex justify-center items-center`}>
           <img
             src={cp_1}

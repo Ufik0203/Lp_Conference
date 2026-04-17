@@ -1,4 +1,4 @@
-export type NotificationStatus = "Done" | "Pending";
+// export type NotificationStatus = "Done" | "Pending";
 
 export interface DateField {
   current: string;
@@ -9,8 +9,9 @@ export interface DateField {
 export interface Batch {
   batchNo: string;
   paperSubmission: DateField;
-  notificationOfAcceptance: NotificationStatus;
+  notificationOfAcceptance: DateField;
   registration: DateField;
+  regularRegistrationDeadline: DateField;
   uploadFinalManuscript: DateField;
 }
 

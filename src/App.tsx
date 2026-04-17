@@ -500,7 +500,7 @@ function App() {
           <section
             id="call-for-paper"
             ref={cfpRef}
-            className="2xl:min-h-266 lg:h-220 2xl:h-266"
+            className="2xl:min-h-266 lg:min-h-220 2xl:h-266"
           >
             <div className="h-4/5">
               <CallForPaper />
@@ -509,7 +509,7 @@ function App() {
               <CallForPaperAdditional_A />
             </div>
           </section>
-          <section className="overflow-hidden 2xl:min-h-266 lg:h-266">
+          <section className="overflow-hidden lg:min-h-320">
             <CallForPaperAdditional_B />
           </section>
           <section

@@ -20,4 +20,6 @@ export interface RegistrationPayment {
   registrationLink: string;
   edasLink: string;
   presentationSlideLink: string;
+  ieeConferenceTemplate?: string;
+  latexConferenceTemplate?: string;
 }

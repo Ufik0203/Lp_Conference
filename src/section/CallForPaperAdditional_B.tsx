@@ -154,10 +154,10 @@ const CallForPaperAdditional_B = () => {
               key={`${item.id}-${i}`}
               className={`animate__animated animate__slow ${
                 animate ? "animate__fadeInUp opacity-100" : "opacity-0"
-              } w-full sm:max-w-2xl lg:max-w-4xl border-2 mt-3 h-12 rounded-md bg-primary-accent border-neutral-dark/60 flex px-5 items-center text-white font-bold`}
+              } w-full sm:max-w-2xl lg:max-w-4xl border-2 mt-3 min-h-12 rounded-md bg-primary-accent border-neutral-dark/60 flex px-5 items-center text-white font-bold`}
             >
               <h3>{i + 1}.</h3>
-              <p className="ml-2 text-xs">{text}</p>
+              <p className="ml-2 text-xs lg:text-base">{text}</p>
             </div>
           )),
         )

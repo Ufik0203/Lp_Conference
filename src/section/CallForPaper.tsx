@@ -144,10 +144,10 @@ const CallForPaper = () => {
   return (
     <div
       ref={ref}
-      className="overflow-hidden w-full h-full bg-neutral-dark border-t-4 border-secondary-accent lg:flex relative"
+      className="overflow-hidden w-full h-full bg-neutral-dark border-t-4 border-secondary-accent 2xl:flex relative"
     >
-      <div className="sm:max-w-2xl lg:max-w-310 h-full mx-5 lg:px-5 2xl:px-0 sm:mx-auto flex flex-col lg:flex-row z-20">
-        <div className="lg:w-3/8 h-full text-secondary-accent pt-14 lg:py-14 text-sm sm:text-xl text-justify">
+      <div className="sm:max-w-2xl lg:max-w-310 h-full mx-5 lg:px-5 2xl:px-0 sm:mx-auto flex flex-col xl:flex-row z-20">
+        <div className="xl:w-3/8 h-full text-secondary-accent pt-14 lg:py-14 text-sm sm:text-xl text-justify">
           <div
             className={`animate__animated animate__slow ${
               animate ? "animate__fadeInDown opacity-100" : "opacity-0"
@@ -200,7 +200,7 @@ const CallForPaper = () => {
             </p>
           </div>
         </div>
-        <div className="lg:w-5/8 lg:h-full h-130 sm:h-155 grid lg:grid-rows-6">
+        <div className="xl:w-5/8 2xl:h-full h-130 sm:h-155 lg:h-175 grid xl:grid-rows-6">
           <div
             className={`animate__animated animate__slow ${
               animate ? "animate__fadeInRight opacity-100" : "opacity-0"
@@ -226,7 +226,7 @@ const CallForPaper = () => {
 
           <div
             // className={`lg:grid lg:grid-cols-${totalCards} hidden border-l-4 border-secondary-accent gap-2`}
-            className={`lg:w-full lg:flex hidden border-l-4 border-secondary-accent gap-2`}
+            className={`2xl:w-full 2xl:flex hidden gap-2`}
           >
             {/* <div className="diagonal-bottom bg-neutral-light" /> */}
             {/* <div
@@ -278,8 +278,8 @@ const CallForPaper = () => {
                 key={item._id}
                 className={
                   active === index
-                    ? " pb-2 bg-white min-w-40"
-                    : "pb-2 bg-neutral-light min-w-40"
+                    ? "pb-2 bg-white min-w-40 border-l-4 border-t-4 border-r-4 border-secondary-accent"
+                    : "pb-2 bg-neutral-light min-w-40 border-l-4 border-t-4 border-r-4 border-secondary-accent"
                 }
               >
                 <ButtonNav
@@ -296,7 +296,7 @@ const CallForPaper = () => {
       </div>
 
       <div
-        className={`bg-neutral-dark font-bold lg:hidden border-t-2 border-secondary-accent grid grid-cols-${totalCards}`}
+        className={`bg-neutral-dark font-bold 2xl:hidden border-t-2 border-secondary-accent grid grid-cols-${totalCards}`}
       >
         {/* <div
           className={active === 0 ? "py-2 bg-white" : "py-2 bg-neutral-light"}
@@ -351,10 +351,10 @@ const CallForPaper = () => {
           </div>
         ))}
       </div>
-      <div className="hidden absolute w-276.5 h-full right-0 lg:grid grid-rows-6">
-        <div className="row-span-5 bg-neutral-dark border-b-4 border-secondary-accent" />
-        <div className="xl:bg-neutral-light w-300" />
-      </div>
+      {/* <div className="hidden absolute w-276.5 h-full right-0 2xl:grid grid-rows-6">
+        <div className="row-span-5 bg-neutral-dark 2xl:border-b-4 border-secondary-accent" />
+        <div className="2xl:bg-neutral-light w-300" />
+      </div> */}
     </div>
   );
 };

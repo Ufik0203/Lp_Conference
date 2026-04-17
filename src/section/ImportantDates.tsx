@@ -146,13 +146,15 @@ const ImportantDatesPages = () => {
 
                   <div className="flex pl-6 sm:pl-8 text-sm sm:text-lg">
                     <div className="text-gray-500 grid grid-rows-4">
-                      <p>Paper Submission</p>
+                      <p>Full Paper Submission Deadline</p>
                       <p>Notification of Acceptance</p>
-                      <p>Registration</p>
-                      <p>Upload Final Manuscript</p>
+                      <p>Early Bird Registration Deadline</p>
+                      <p>Final Manuscript Submission</p>
+                      <p>Regular Registration Deadline</p>
                     </div>
 
                     <div className="pl-2 text-gray-500 grid grid-rows-4">
+                      <p>:</p>
                       <p>:</p>
                       <p>:</p>
                       <p>:</p>
@@ -184,7 +186,29 @@ const ImportantDatesPages = () => {
                         )}
                       </div>
 
-                      <p>{batch.notificationOfAcceptance}</p>
+                      <div className="flex gap-2">
+                        <p>
+                          {new Date(
+                            batch.notificationOfAcceptance.current,
+                          ).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
+
+                        {batch.notificationOfAcceptance.previous && (
+                          <p className="line-through text-gray-500">
+                            {new Date(
+                              batch.notificationOfAcceptance.previous,
+                            ).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                        )}
+                      </div>
 
                       <div className="flex gap-2">
                         <p>
@@ -233,6 +257,30 @@ const ImportantDatesPages = () => {
                           </p>
                         )}
                       </div>
+
+                      <div className="flex gap-2">
+                        <p>
+                          {new Date(
+                            batch.regularRegistrationDeadline.current,
+                          ).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
+
+                        {batch.regularRegistrationDeadline.previous && (
+                          <p className="line-through text-gray-500">
+                            {new Date(
+                              batch.regularRegistrationDeadline.previous,
+                            ).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -271,7 +319,10 @@ const ImportantDatesPages = () => {
             <h2 className="my-3 text-center">
               <span className="font-bold text-orange-400">
                 <a
-                  href="https://www.ieee.org/conferences/publishing/templates"
+                  href={
+                    data?.ieeConferenceTemplate ||
+                    "https://www.ieee.org/conferences/publishing/templates"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -281,7 +332,10 @@ const ImportantDatesPages = () => {
               or{" "}
               <span className="font-bold text-orange-400">
                 <a
-                  href="https://www.ieee.org/conferences/publishing/templates"
+                  href={
+                    data?.latexConferenceTemplate ||
+                    "https://www.ieee.org/conferences/publishing/templates"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -298,7 +352,7 @@ const ImportantDatesPages = () => {
                 via{" "}
                 <span className="sm:text-xl font-extrabold text-orange-400">
                   <a
-                    href={data?.edasLink || "#"}
+                    href={data?.edasLink || ""}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -309,7 +363,7 @@ const ImportantDatesPages = () => {
             </div>
             <div className="w-fit">
               <a
-                href={data?.edasLink || "#"}
+                href={data?.edasLink || ""}
                 target="_blank"
                 rel="noopener noreferrer"
               >
